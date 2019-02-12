@@ -23,4 +23,27 @@ body {
 
 .main-wrapper {
   display: flex;
+
+  .main {
+    @media (max-width: 769px) {
+      & {
+        width: 100%;
+      }
+    }
+
+    width: 66.666%;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    @media (max-width: 769px) {
+      & {
+        display: none;
+      }
+    }
+
+    width: 33.333%;
+    background: $light-blue;
+    padding: 1rem;
+  }
 }

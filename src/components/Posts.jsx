@@ -1,10 +1,10 @@
 import React from 'react'
 
-export class Main extends React.Component {
+export class Posts extends React.Component {
 
   render() {
     return (
-      <div className="main">
+      <div>
 
         <div className="posts">
           {this.props.posts.map(post => post)}
