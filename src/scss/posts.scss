@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 1rem 0;
 }
 
 .post {
@@ -10,8 +11,13 @@
     margin: 1rem;
   }
 
-  width: calc(50% - 4rem);
-  margin: 1rem 0;
+  width: calc(50% - 2rem);
+  padding: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($color: $dark-blue, $alpha: .1);
+  }
 
   &:nth-child(odd) {
     margin-right: 1rem;
