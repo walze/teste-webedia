@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import { Header } from './components/Header'
 import { Posts } from './components/Posts'
 import { Sidebar } from './components/Sidebar'
-import { isMobile } from './helpers'
 
 class App extends Component {
 
   state = {
-    isMobile: isMobile(),
     TEMP_POSTS: {
       posts: [...Array(4)],
       top5: [...Array(5)],

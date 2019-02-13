@@ -3,6 +3,7 @@
 @import "./scss/header.scss";
 @import "./scss/posts.scss";
 @import "./scss/main-wrapper.scss";
+@import "./scss/tiny-slider.scss";
 
 * {
   position: relative;
@@ -20,7 +21,10 @@
 }
 
 body {
+  width: 100%;
+  max-width: 100vw;
   font-size: 1.2rem;
+  overflow-x: hidden;
 }
 
 .container {

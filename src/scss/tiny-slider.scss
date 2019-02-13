@@ -1,0 +1,31 @@
+.tns-outer {
+  overflow: hidden;
+  .tns-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    button {
+      border: none;
+      border-radius: 50%;
+
+      &.tns-nav-active {
+        &.dark {
+          background: $light-blue;
+        }
+        background: $dark-blue;
+      }
+
+      background: $mid-blue;
+
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+    }
+  }
+
+  // ??
+  .tns-liveregion {
+    display: none;
+  }
+}
