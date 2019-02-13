@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Header } from './components/Header'
 import { Posts } from './components/Posts'
+import { Sidebar } from './components/Sidebar'
 import { isMobile } from './helpers'
-import { Post } from './components/Post'
 
 class App extends Component {
 
@@ -25,11 +25,7 @@ class App extends Component {
             <Posts posts={this.state.TEMP_POSTS.posts} />
           </div>
 
-          <div className="sidebar">
-            {this.state.TEMP_POSTS.top5.map((data, i) =>
-              <Post key={i} simple={true} {...data} />
-            )}
-          </div>
+          <Sidebar posts={this.state.TEMP_POSTS.top5} />
         </div>
 
       </div>
