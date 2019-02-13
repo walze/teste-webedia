@@ -11,9 +11,15 @@ export class ThemeBtn extends React.Component {
   _click = () => {
     const { current: btn } = this._btn
     const [text, ball] = btn.children
-    const [active] = toggleClass([text, ball], 'active')
 
+    const [active] = toggleClass([text, ball], 'active')
     this.setState({ active })
+
+    // TEMPORARIO?
+    // POSSIBLE FIX: ADICIONAR CLASSE .DARKABLE EM ELEMENTOS?
+    // POSSIBLE FIX: EMITIR EVENTO PARA APP.JSX, SELECIONAR ELEMENTOS COM .DARKABLE LA?
+    const TEMP_ALL = Array.from(document.body.querySelectorAll('*'))
+    toggleClass(TEMP_ALL, 'dark')
   }
 
   render() {

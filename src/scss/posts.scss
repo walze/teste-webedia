@@ -61,6 +61,16 @@
     padding: 1.5rem 0;
     padding-bottom: 0;
 
+    &.dark .header,
+    &.dark .description,
+    &.dark .footer {
+      color: $white;
+
+      & i {
+        color: $dark-blue;
+      }
+    }
+
     .header {
       color: $dark-blue;
       margin-bottom: 1rem;

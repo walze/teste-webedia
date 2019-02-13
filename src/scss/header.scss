@@ -15,12 +15,19 @@ $ball-size: ($width / 2.1) - ($button-padX * 2.1);
 
     align-self: flex-end;
     background: $mid-blue;
+    &.dark {
+      background: $dark-blue;
+    }
+
     border-radius: 25px;
 
     display: flex;
 
-    &:hover {
-      background: $blue;
+    &:hover .ball {
+      background: rgba($color: $dark-blue, $alpha: 0.5) !important;
+      &.dark {
+        background: rgba($color: $white, $alpha: 0.5) !important;
+      }
     }
 
     .button {
@@ -70,6 +77,10 @@ $ball-size: ($width / 2.1) - ($button-padX * 2.1);
     width: 100%;
 
     .news {
+      &.dark {
+        color: $white;
+      }
+
       color: $dark-blue;
       margin-right: 1rem;
     }

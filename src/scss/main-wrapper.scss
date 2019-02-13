@@ -1,0 +1,41 @@
+.main-wrapper {
+  display: flex;
+
+  .main {
+    @media (max-width: 769px) {
+      & {
+        width: 100%;
+      }
+    }
+
+    &.dark {
+      background: $blue;
+    }
+
+    width: 66.666%;
+    padding: 1rem 2rem;
+  }
+
+  .sidebar {
+    @media (max-width: 769px) {
+      & {
+        display: none;
+      }
+    }
+
+    width: 33.333%;
+    height: 100vh;
+
+    background: $light-blue;
+    &.dark {
+      background: $mid-blue;
+    }
+
+    padding: 2.5%;
+    overflow-y: scroll;
+  }
+}
+
+.icon-margin {
+  margin-right: 5px;
+}

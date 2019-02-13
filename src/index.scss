@@ -1,7 +1,8 @@
+@import "../node_modules/fontisto/css/fontisto/fontisto.min.css";
 @import "./scss/colours.scss";
 @import "./scss/header.scss";
 @import "./scss/posts.scss";
-@import '../node_modules/fontisto/css/fontisto/fontisto.min.css';
+@import "./scss/main-wrapper.scss";
 
 * {
   position: relative;
@@ -11,7 +12,7 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  transition: 0.1s linear all;
+  transition: 0.1s linear all, color 0s;
 }
 
 [hidden] {
@@ -27,35 +28,4 @@ body {
   margin: 0 auto;
 }
 
-.main-wrapper {
-  display: flex;
 
-  .main {
-    @media (max-width: 769px) {
-      & {
-        width: 100%;
-      }
-    }
-
-    width: 66.666%;
-    padding: 1rem 2rem;
-  }
-
-  .sidebar {
-    @media (max-width: 769px) {
-      & {
-        display: none;
-      }
-    }
-
-    width: 33.333%;
-    height: 100vh;
-    background: $light-blue;
-    padding: 2.5%;
-    overflow-y: scroll;
-  }
-}
-
-.icon-margin {
-  margin-right: 5px;
-}
