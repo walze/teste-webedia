@@ -1,4 +1,5 @@
 import React from 'react'
+import { ThemeBtn } from './ThemeBtn'
 
 export class Header extends React.Component {
 
@@ -7,9 +8,7 @@ export class Header extends React.Component {
     return (
       <div className="header">
 
-        <div className="theme-btn">
-          <button>theme</button>
-        </div>
+        <ThemeBtn />
 
         <div className="heading">
           <h3 className='news'>NEWS</h3>
