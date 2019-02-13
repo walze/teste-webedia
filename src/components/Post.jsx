@@ -3,22 +3,16 @@ import React from 'react'
 
 export class Post extends React.Component {
 
-
   render() {
-    return !this.props.simple
-      ? this._render()
-      : this._renderSimple()
-  }
+    const simple = !!this.props.simple
+    const simpleClass = simple ? 'simple' : ''
 
-
-  _render() {
     return (
-      <div className="post">
-
+      <div className={`post ${simpleClass}`}>
         <div className="img">
           <img src="https://via.placeholder.com/320" alt="" />
 
-          <div className="likes">
+          <div className="likes" hidden={simple}>
             <div className="icon"><i className="fi fi-heart"></i></div>
             <div className="count">123</div>
           </div>
@@ -29,7 +23,7 @@ export class Post extends React.Component {
 
           <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, eligendi.</p>
 
-          <div className="footer">
+          <div className="footer" hidden={simple}>
             <div>
               <i className="fi fi-earth icon-margin"></i>
               <span>Long name here</span>
@@ -45,20 +39,5 @@ export class Post extends React.Component {
     )
   }
 
-  _renderSimple() {
-    return (
-      <div className="post alternative">
-
-        <div className="img">
-          <img src="https://via.placeholder.com/320" alt="" />
-        </div>
-
-        <div className="body">
-          <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, eligendi.</p>
-        </div>
-
-      </div>
-    )
-  }
 
 }

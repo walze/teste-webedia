@@ -12,7 +12,7 @@ export class ThemeBtn extends React.Component {
     const { current: btn } = this._btn
     const [text, ball] = btn.children
     const [active] = toggleClass([text, ball], 'active')
-    console.log(active)
+
     this.setState({ active })
   }
 

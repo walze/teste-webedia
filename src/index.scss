@@ -14,6 +14,10 @@
   transition: 0.1s linear all;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-size: 1.2rem;
 }
@@ -47,7 +51,7 @@ body {
     width: 33.333%;
     height: 100vh;
     background: $light-blue;
-    padding: 4rem;
+    padding: 2.5%;
     overflow-y: scroll;
   }
 }
