@@ -15,6 +15,6 @@ export const toggleClass = (el, className) => {
     else
       e.classList.add(className)
 
-    return hasClass
+    return !hasClass
   })
 }

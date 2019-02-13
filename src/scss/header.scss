@@ -1,7 +1,7 @@
 $width: 80px;
-$height: 40px;
-$button-padX: 4px;
-$ball-size: ($width / 2) - ($button-padX * 2);
+$height: 35px;
+$button-padX: 5px;
+$ball-size: ($width / 2.1) - ($button-padX * 2.1);
 
 .header {
   display: flex;
@@ -33,12 +33,12 @@ $ball-size: ($width / 2) - ($button-padX * 2);
       .text {
         &.active {
           right: 100%;
-          margin-right: -$ball-size - $button-padX * 2;
+          margin-right: (-$ball-size - $button-padX * 3);
         }
 
+        right: $button-padX;
         position: absolute;
         top: 50%;
-        right: $button-padX * 1.25;
         transform: translateY(-50%);
 
         font-size: 0.75rem;

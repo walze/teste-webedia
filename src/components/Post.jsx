@@ -19,7 +19,7 @@ export class Post extends React.Component {
           <img src="https://via.placeholder.com/320" alt="" />
 
           <div className="likes">
-            <div className="icon"><i class="fi fi-heart"></i></div>
+            <div className="icon"><i className="fi fi-heart"></i></div>
             <div className="count">123</div>
           </div>
         </div>
@@ -31,11 +31,11 @@ export class Post extends React.Component {
 
           <div className="footer">
             <div>
-              <i class="fi fi-earth icon-margin"></i>
+              <i className="fi fi-earth icon-margin"></i>
               <span>Long name here</span>
             </div>
             <div>
-              <i class="fi fi-clock icon-margin"></i>
+              <i className="fi fi-clock icon-margin"></i>
               <span>1h ago</span>
             </div>
           </div>

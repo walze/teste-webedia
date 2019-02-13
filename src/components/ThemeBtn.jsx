@@ -12,7 +12,7 @@ export class ThemeBtn extends React.Component {
     const { current: btn } = this._btn
     const [text, ball] = btn.children
     const [active] = toggleClass([text, ball], 'active')
-
+    console.log(active)
     this.setState({ active })
   }
 
@@ -20,10 +20,10 @@ export class ThemeBtn extends React.Component {
     return (
       <div className="theme-btn" onClick={this._click}>
         <div className='button' ref={this._btn}>
-          <div className="text active">
+          <div className="text">
             {this.state.active ? 'DARK' : 'LIGHT'}
           </div>
-          <div className="ball active"></div>
+          <div className="ball"></div>
         </div>
       </div>
     )
