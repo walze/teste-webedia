@@ -2,6 +2,7 @@
   "name": "teste-webedia",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "fontisto": "^3.0.4",
     "react": "^16.8.1",
