@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Header } from './components/Header'
-import {  Posts } from './components/Posts'
-import { Post2 } from './components/Post2'
+import { Posts } from './components/Posts'
 import { isMobile } from './helpers'
 import { Post } from './components/Post'
 
@@ -10,19 +9,9 @@ class App extends Component {
   state = {
     isMobile: isMobile(),
     TEMP_POSTS: {
-      posts: [
-        <Post />,
-        <Post />,
-        <Post />,
-        <Post />,
-      ],
-      top5: [
-        <Post2 />,
-        <Post2 />,
-        <Post2 />,
-        <Post2 />,
-        <Post2 />,
-      ]
+      posts: [...Array(4)],
+      top5: [...Array(5)],
+
     }
   }
 
@@ -37,7 +26,9 @@ class App extends Component {
           </div>
 
           <div className="sidebar">
-            {this.state.TEMP_POSTS.top5.map(post => post)}
+            {this.state.TEMP_POSTS.top5.map((data, i) =>
+              <Post key={i} simple={true} {...data} />
+            )}
           </div>
         </div>
 

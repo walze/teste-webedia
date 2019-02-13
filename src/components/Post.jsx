@@ -5,6 +5,13 @@ export class Post extends React.Component {
 
 
   render() {
+    return !this.props.simple
+      ? this._render()
+      : this._renderSimple()
+  }
+
+
+  _render() {
     return (
       <div className="post">
 
@@ -26,6 +33,22 @@ export class Post extends React.Component {
             <span>Long name here</span>
             <span>1h ago  </span>
           </div>
+        </div>
+
+      </div>
+    )
+  }
+
+  _renderSimple() {
+    return (
+      <div className="post alternative">
+
+        <div className="img">
+          <img src="https://via.placeholder.com/320" alt="" />
+        </div>
+
+        <div className="body">
+          <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, eligendi.</p>
         </div>
 
       </div>
