@@ -19,7 +19,7 @@ export class Post extends React.Component {
           <img src="https://via.placeholder.com/320" alt="" />
 
           <div className="likes">
-            <div className="icon">❤</div>
+            <div className="icon"><i class="fi fi-heart"></i></div>
             <div className="count">123</div>
           </div>
         </div>
@@ -30,12 +30,18 @@ export class Post extends React.Component {
           <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, eligendi.</p>
 
           <div className="footer">
-            <span>Long name here</span>
-            <span>1h ago  </span>
+            <div>
+              <i class="fi fi-earth icon-margin"></i>
+              <span>Long name here</span>
+            </div>
+            <div>
+              <i class="fi fi-clock icon-margin"></i>
+              <span>1h ago</span>
+            </div>
           </div>
         </div>
 
-      </div>
+      </div >
     )
   }
 

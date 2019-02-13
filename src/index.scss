@@ -1,6 +1,7 @@
 @import "./scss/colours.scss";
 @import "./scss/header.scss";
 @import "./scss/posts.scss";
+@import '../node_modules/fontisto/css/fontisto/fontisto.min.css';
 
 * {
   position: relative;
@@ -46,7 +47,11 @@ body {
     width: 33.333%;
     height: 100vh;
     background: $light-blue;
-    padding: 2rem;
+    padding: 4rem;
     overflow-y: scroll;
   }
+}
+
+.icon-margin {
+  margin-right: 5px;
 }

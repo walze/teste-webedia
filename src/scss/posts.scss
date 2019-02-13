@@ -16,7 +16,7 @@
   cursor: pointer;
 
   &:hover {
-    background: rgba($color: $dark-blue, $alpha: .1);
+    background: rgba($color: $dark-blue, $alpha: 0.1);
   }
 
   &:nth-child(odd) {
@@ -42,6 +42,9 @@
       right: 10px;
       bottom: 10px;
       display: flex;
+      .icon {
+        margin-right: 5px;
+      }
     }
 
     img {
