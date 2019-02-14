@@ -27,11 +27,38 @@
   &.simple {
     width: 100%;
     margin: 0;
+    padding: 1rem;
+    background: $white;
 
     @media (max-width: 769px) {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 1rem;
+
+      &.dark {
+        background: $dark-blue;
+      }
+
+      .body {
+        padding: 0;
+        margin-right: 2rem;
+        .description {
+          margin-bottom: 1rem;
+        }
+        .footer {
+          i {
+            &.dark {
+              color: $white;
+            }
+          }
+        }
+      }
+
+      .img {
+        min-width: 60px;
+        height: 60px;
+      }
     }
   }
 

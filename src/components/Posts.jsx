@@ -1,6 +1,5 @@
 import React from 'react'
 import { Post } from './Post';
-import { isMobile } from '../helpers'
 
 import { tns } from "tiny-slider/src/tiny-slider"
 import { mobileStore } from '../stores/MobileStore';
@@ -8,10 +7,10 @@ import { mobileStore } from '../stores/MobileStore';
 export class Posts extends React.Component {
 
   slider = null
-  sliderOn = isMobile()
+  sliderOn = mobileStore.isMobile
 
   componentDidMount() {
-    this._handleSliderInstantiation(isMobile())
+    this._handleSliderInstantiation(mobileStore.isMobile)
 
     mobileStore.onResize(mobile => {
 
@@ -50,6 +49,7 @@ export class Posts extends React.Component {
   }
 
   render() {
+    
     return (
       <div className="posts">
         {this.props.posts.map((data, i) =>

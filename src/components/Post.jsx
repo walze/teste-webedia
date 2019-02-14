@@ -1,40 +1,47 @@
 
 import React from 'react'
+import { mobileStore } from '../stores/MobileStore'
+import { PostImage } from './PostImage';
 
 export class Post extends React.Component {
+
+  state = {
+    mobile: mobileStore.isMobile
+  }
+
+  componentDidMount() {
+    mobileStore.onResize(mobile => {
+      this.setState({ mobile })
+    })
+  }
 
   render() {
     const simple = !!this.props.simple
     const simpleClass = simple ? 'simple' : ''
+    const imageAfter = this.state.mobile && simple
 
     return (
       <div className={`post ${simpleClass}`}>
-        <div className="img">
-          <img src="https://via.placeholder.com/320" alt="" />
-
-          <div className="likes" hidden={simple}>
-            <div className="icon"><i className="fi fi-heart"></i></div>
-            <div className="count">123</div>
-          </div>
-        </div>
+        <PostImage likes={this.props.likes} simple={simple} hidden={imageAfter} />
 
         <div className="body">
-          <h4 className="header">Lorem, ipsum dolor.</h4>
+          <h4 className="header" hidden={imageAfter}>{this.props.header}</h4>
 
-          <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, eligendi.</p>
+          <p className="description">{this.props.description}</p>
 
-          <div className="footer" hidden={simple}>
-            <div>
+          <div className="footer">
+            <div hidden={imageAfter || simple}>
               <i className="fi fi-earth icon-margin"></i>
-              <span>Long name here</span>
+              <span>{this.props.name}</span>
             </div>
-            <div>
+            <div hidden={simple && !imageAfter}>
               <i className="fi fi-clock icon-margin"></i>
-              <span>1h ago</span>
+              <span>{this.props.date}</span>
             </div>
           </div>
         </div>
 
+        <PostImage likes={this.props.likes} simple={simple} hidden={!imageAfter} />
       </div>
     )
   }
