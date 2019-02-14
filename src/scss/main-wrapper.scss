@@ -1,11 +1,13 @@
 .main-wrapper {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
 
   .main {
     @media (max-width: 769px) {
       & {
         width: 100%;
+        padding-bottom: 3rem;
       }
     }
 
@@ -20,12 +22,13 @@
   .sidebar {
     @media (max-width: 769px) {
       & {
-        display: none;
+        width: 100%;
       }
     }
 
     width: 33.333%;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
 
     background: $light-blue;
     &.dark {
@@ -33,6 +36,11 @@
     }
 
     padding: 2.5%;
+    @media (max-width: 1024px) {
+      & {
+        padding: 1%;
+      }
+    }
     overflow-y: scroll;
   }
 }

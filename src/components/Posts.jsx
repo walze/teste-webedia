@@ -3,20 +3,20 @@ import { Post } from './Post';
 import { isMobile } from '../helpers'
 
 import { tns } from "tiny-slider/src/tiny-slider"
+import { mobileStore } from '../stores/MobileStore';
 
 export class Posts extends React.Component {
 
-  mobile = isMobile()
   slider = null
   sliderOn = isMobile()
 
   componentDidMount() {
-    this._handleSliderInstantiation()
+    this._handleSliderInstantiation(isMobile())
 
-    window.addEventListener('resize', () => {
-      this._handleSliderInstantiation()
+    mobileStore.onResize(mobile => {
 
-      const mobile = isMobile()
+      this._handleSliderInstantiation(mobile)
+
       let { sliderOn } = this
 
       if (mobile && !sliderOn && this.slider) {
@@ -29,14 +29,13 @@ export class Posts extends React.Component {
         this.slider.destroy()
       }
 
-      this.mobile = mobile
       this.sliderOn = sliderOn
     })
   }
 
 
-  _handleSliderInstantiation() {
-    if (this.slider || !this.mobile) return
+  _handleSliderInstantiation(mobile) {
+    if (this.slider || !mobile) return
 
     this.sliderOn = true
     this.slider = tns({
