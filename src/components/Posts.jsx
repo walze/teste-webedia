@@ -6,8 +6,39 @@ import { tns } from "tiny-slider/src/tiny-slider"
 
 export class Posts extends React.Component {
 
+  mobile = isMobile()
+  slider = null
+  sliderOn = isMobile()
 
   componentDidMount() {
+    this._handleSliderInstantiation()
+
+    window.addEventListener('resize', () => {
+      this._handleSliderInstantiation()
+
+      const mobile = isMobile()
+      let { sliderOn } = this
+
+      if (mobile && !sliderOn && this.slider) {
+        sliderOn = true
+        this.slider = this.slider.rebuild()
+      }
+
+      if (!mobile && sliderOn && this.slider.destroy) {
+        sliderOn = false
+        this.slider.destroy()
+      }
+
+      this.mobile = mobile
+      this.sliderOn = sliderOn
+    })
+  }
+
+
+  _handleSliderInstantiation() {
+    if (this.slider || !this.mobile) return
+
+    this.sliderOn = true
     this.slider = tns({
       container: ".posts",
       items: 1,
@@ -15,20 +46,9 @@ export class Posts extends React.Component {
       mouseDrag: true,
       controls: false,
       nav: true,
-      navPosition: 'bottom',
-      disable: true
-    });
-
-    if (!isMobile()) this.slider.destroy()
-
-    window.addEventListener('resize', () => {
-      if (isMobile()) return this.slider.rebuild()
-      if (!isMobile()) return this.slider.destroy()
-
-      alert('consertar isso')
+      navPosition: 'bottom'
     })
   }
-
 
   render() {
     return (
