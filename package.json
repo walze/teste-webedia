@@ -27,6 +27,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "express": "^4.16.4",
     "mysql2": "^1.6.5",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10"
