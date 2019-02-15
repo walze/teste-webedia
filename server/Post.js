@@ -42,7 +42,7 @@ module.exports = class Post {
     this.id = Number(obj.id) || null
     this.title = obj.title
     this.body = obj.body
-    this.date = obj.date || new Date()
+    this.date = obj.date || new Date().toISOString()
     this.author = obj.author
     this.count = obj.count || 0
   }
