@@ -5,7 +5,8 @@ class DB {
   constructor() {
     this._createConn = () => mysql.createConnection({
       host: 'localhost',
-      user: 'root'
+      user: 'root',
+      database: 'news_db'
     })
   }
 
