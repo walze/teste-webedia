@@ -10,14 +10,24 @@ class DB {
     })
   }
 
+  get format() {
+    return mysql.format.bind(mysql)
+  }
+
   get connCB() {
     return this._createConn()
   }
 
   get conn() {
-    return this._createConn().promise()
+    const conn = this._createConn()
+    const promise = conn.promise()
+
+    return promise
   }
 
+  /**
+   * @type { (query: string, ...params: any[]) => Promise }
+   */
   get query() {
     const conn = this.conn
     return conn.query.bind(conn)
@@ -25,4 +35,10 @@ class DB {
 
 }
 
-module.exports = DB
+const db = new DB({
+  host: 'localhost',
+  user: 'root',
+  database: 'news_db'
+})
+
+module.exports = db
