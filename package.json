@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.5",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.10"
+  },
   "dependencies": {
     "fontisto": "^3.0.4",
     "react": "^16.8.2",
@@ -11,8 +18,9 @@
     "tiny-slider": "^2.9.1"
   },
   "scripts": {
+    "start": "start npm run db && start npm run react",
     "db": "nodemon ./server/index.js",
-    "start": "react-scripts start",
+    "react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -25,12 +33,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "mysql2": "^1.6.5",
-    "node-sass": "^4.11.0",
-    "nodemon": "^1.18.10"
-  }
+  ]
 }
