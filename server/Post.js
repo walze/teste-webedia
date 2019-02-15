@@ -34,8 +34,12 @@ module.exports = class Post {
 
   static async delete(id) {
     const [rows] = await db.conn.execute(`DELETE FROM \`posts\` WHERE id = ${id}`)
+    const [rows2] = await db.conn.execute(`DELETE FROM \`likes\` WHERE post_id = ${id}`)
 
-    return rows
+    return {
+      posts: rows,
+      likes: rows2
+    }
   }
 
   constructor(obj) {
