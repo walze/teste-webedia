@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 
-// likes
+// like/dislike
 app.all('/like/:id', async (rq, rs) => {
   const post = await Post.find(rq.params.id)
     .catch(rs.status(500).send.bind(rs))
@@ -22,7 +22,7 @@ app.all('/like/:id', async (rq, rs) => {
 })
 
 
-// posts
+// all posts
 app.get('/posts', async (rq, rs) => {
   const posts = await Post.all()
     .catch(rs.status(500).send.bind(rs))
@@ -30,6 +30,7 @@ app.get('/posts', async (rq, rs) => {
   rs.send(posts)
 })
 
+// 1 post
 app.get('/posts/:id', async (rq, rs) => {
   const post = await Post.find(rq.params.id)
     .catch(rs.status(500).send.bind(rs))
@@ -37,6 +38,7 @@ app.get('/posts/:id', async (rq, rs) => {
   rs.send(post)
 })
 
+// delete post
 app.delete('/posts/:id', async (rq, rs) => {
   const post = await Post.delete(rq.params.id)
     .catch(rs.status(500).send.bind(rs))
@@ -44,6 +46,7 @@ app.delete('/posts/:id', async (rq, rs) => {
   rs.send(post)
 })
 
+// add post
 app.post('/posts', async (rq, rs) => {
   const post = new Post(rq.body)
   const result = await post.save()
