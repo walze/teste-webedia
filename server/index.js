@@ -18,6 +18,8 @@ app.all('/like/:id', async (rq, rs) => {
   const post = await Post.find(rq.params.id)
     .catch((...args) => rs.status(500).send(args))
 
+  if (!post) return rs.status(404).send('404 Not Found')
+
   if (rq.method === 'GET')
     post.like()
   else if (rq.method === 'DELETE')

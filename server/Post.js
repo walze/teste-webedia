@@ -44,8 +44,9 @@ module.exports = class Post {
     `
 
     const [rows] = await db.conn.execute(q)
+    const postData = rows[0]
 
-    return new Post(rows[0])
+    return postData ? new Post(postData) : null
   }
 
   static async delete(id) {
