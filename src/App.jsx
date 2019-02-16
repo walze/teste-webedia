@@ -13,9 +13,13 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log(this)
     postStore.on(EVENTS.GET_POSTS, this._updatePosts)
     postStore.on(EVENTS.MORE_POSTS, this._updatePosts)
+  }
+
+  componentWillUnmount() {
+    postStore.off(EVENTS.GET_POSTS, this._updatePosts)
+    postStore.off(EVENTS.MORE_POSTS, this._updatePosts)
   }
 
   render() {

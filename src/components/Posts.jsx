@@ -39,11 +39,13 @@ export class Posts extends React.Component {
 
     return (
       <div>
-        <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
-          {this.props.posts.map((data, i) =>
-            <Post key={i} {...data} />
-          )}
-        </TinySlider>
+        <div className="posts mobile">
+          <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
+            {this.props.posts.map((data, i) =>
+              <Post key={i} {...data} />
+            )}
+          </TinySlider>
+        </div>
 
         <div className="posts" ref={this.posts}>
           {this.props.posts.map((data, i) =>

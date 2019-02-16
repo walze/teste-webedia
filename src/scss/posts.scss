@@ -3,6 +3,17 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 1rem 0;
+
+  @media (max-width: 767px) {
+    &:not(.mobile) {
+      display: none;
+    }
+  }
+  @media (min-width: 767px) {
+    &.mobile {
+      display: none;
+    }
+  }
 }
 
 .post {
