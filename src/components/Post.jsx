@@ -22,17 +22,17 @@ export class Post extends React.Component {
 
     return (
       <div className={`post ${simpleClass}`}>
-        <PostImage likes={this.props.likes} simple={simple} hidden={imageAfter} />
+        <PostImage likes={this.props.count} simple={simple} />
 
         <div className="body">
-          <h4 className="header" hidden={imageAfter}>{this.props.header}</h4>
+          <h4 className="header" hidden={imageAfter}>{this.props.title}</h4>
 
-          <p className="description">{this.props.description}</p>
+          <p className="description">{this.props.body}</p>
 
           <div className="footer">
             <div hidden={imageAfter || simple}>
               <i className="fi fi-earth icon-margin"></i>
-              <span>{this.props.name}</span>
+              <span>{this.props.author}</span>
             </div>
             <div hidden={simple && !imageAfter}>
               <i className="fi fi-clock icon-margin"></i>
@@ -40,8 +40,6 @@ export class Post extends React.Component {
             </div>
           </div>
         </div>
-
-        <PostImage likes={this.props.likes} simple={simple} hidden={!imageAfter} />
       </div>
     )
   }

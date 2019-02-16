@@ -4,10 +4,10 @@ import { Posts } from './components/Posts'
 import { Sidebar } from './components/Sidebar'
 
 const obj = {
-  likes: 123,
-  header: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-  description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-  name: 'Some Long Name',
+  count: 123,
+  title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+  body: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+  author: 'Some Long Name',
   date: '1h ago'
 }
 
