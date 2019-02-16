@@ -29,10 +29,14 @@ app.all('/like/:id', async (rq, rs) => {
 
 // all posts
 app.get('/posts', async (rq, rs) => {
-  const posts = await Post.all()
+  const { start } = rq.query
+  const posts = await Post.all(start)
     .catch((...args) => rs.status(500).send(args))
 
-  rs.send(posts)
+  const top5 = await Post.top5()
+    .catch((...args) => rs.status(500).send(args))
+
+  rs.send({ posts, top5 })
 })
 
 // 1 post

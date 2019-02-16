@@ -28,11 +28,11 @@ class PostStore extends EventEmitter {
     return this.posts
   }
 
-  handleActions(action) {
+  handleActions = action => {
     console.log('action', action)
   }
 }
 
 export const postStore = new PostStore()
 
-dispatcher.register(postStore.handleActions.bind(postStore))
+dispatcher.register(postStore.handleActions)

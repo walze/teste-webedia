@@ -9,6 +9,7 @@ class App extends Component {
 
   state = {
     posts: postStore.all,
+    top5: []
   }
 
   componentWillMount() {
@@ -27,14 +28,14 @@ class App extends Component {
             <Posts posts={this.state.posts} />
           </div>
 
-          <Sidebar posts={this.state.posts} />
+          <Sidebar posts={this.state.top5} />
         </div>
 
       </div>
     )
   }
 
-  _updatePosts = posts => this.setState({ posts })
+  _updatePosts = ({ posts, top5 }) => this.setState({ posts, top5 })
 
 }
 
