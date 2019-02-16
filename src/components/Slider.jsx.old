@@ -1,0 +1,105 @@
+import React, { Component } from 'react'
+import { tns } from "tiny-slider/src/tiny-slider"
+import { mobileStore } from '../stores/MobileStore';
+import { postStore, EVENTS } from '../stores/PostStore'
+import { Post } from './Post';
+
+const makeTns = () => tns({
+  container: ".slider",
+  items: 1,
+  slideBy: "page",
+  mouseDrag: true,
+  controls: false,
+  nav: true,
+  navPosition: 'bottom'
+})
+
+class Slider extends Component {
+
+  /** @type { import('tiny-slider').TinySliderInstance } */
+  slider = null
+  sliderOn = mobileStore.isMobile
+  posts = React.createRef()
+
+  componentDidMount() {
+    postStore.on(EVENTS.GET_POSTS, () => {
+      this._handleSliderInstantiation(mobileStore.isMobile)
+    })
+
+    // postStore.on(EVENTS.MORE_POSTS, () => {
+    //   this.postsM.current.innerHTML = this.posts.current.innerHTML
+    //   this.slider.rebuild()
+    // })
+
+    this._onResize()
+  }
+
+
+  _onResize() {
+    mobileStore.onResize(mobile => {
+      this._handleSliderInstantiation(mobile)
+
+      let { sliderOn } = this
+
+      if (mobile && !sliderOn && this.slider) {
+        sliderOn = true
+        this.slider = this.slider.rebuild()
+      }
+
+      if (!mobile && sliderOn && this.slider.destroy) {
+        sliderOn = false
+        this.slider.destroy()
+      }
+
+      this.sliderOn = sliderOn
+    })
+  }
+
+  _handleSliderInstantiation(mobile) {
+    if (this.slider || !mobile) return
+
+    this.sliderOn = true
+    this.slider = makeTns()
+
+    if (this.slider)
+      this._sliderListen()
+  }
+
+
+
+  _sliderListen() {
+    this.slider.events.on('transitionStart', () => {
+      const { index, pages } = this.slider.getInfo()
+
+      console.warn({ index, pages })
+      if (index >= pages) {
+        postStore.getMorePosts()
+      }
+    })
+  }
+
+  componentWillReceiveProps() {}
+
+  componentDidUpdate() {
+    if (this.slider) {
+      this.slider.destroy()
+
+      console.log(this.posts.current.cloneNode(true), document.querySelector('.slider.posts').cloneNode(true))
+    }
+  }
+
+  render() {
+    return (
+      <div className="slider posts" ref={this.posts}>
+        {this.props.posts.map((data, i) =>
+          <Post key={i} {...data} />
+        )}
+      </div>
+    )
+  }
+
+  _updatePosts = ({ posts, top5 }) => this.setState({ posts, top5 })
+
+}
+
+export default Slider

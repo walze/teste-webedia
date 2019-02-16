@@ -1,11 +1,11 @@
 import { EventEmitter } from "events"
 import { isMobile } from "../helpers"
 
-
 class MobileStore extends EventEmitter {
 
   constructor() {
     super()
+    this.setMaxListeners(50)
 
     this.isMobile = isMobile()
 

@@ -13,12 +13,12 @@ class App extends Component {
   }
 
   componentWillMount() {
-    postStore.on(EVENTS.NEW_POSTS, this._updatePosts)
+    console.log(this)
+    postStore.on(EVENTS.GET_POSTS, this._updatePosts)
+    postStore.on(EVENTS.MORE_POSTS, this._updatePosts)
   }
 
   render() {
-    console.log(this.state)
-
     return (
       <div className="App">
 

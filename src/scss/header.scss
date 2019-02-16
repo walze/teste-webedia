@@ -3,7 +3,7 @@ $height: 35px;
 $button-padX: 5px;
 $ball-size: ($width / 2.1) - ($button-padX * 2.1);
 
-.header {
+.main > .header {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;

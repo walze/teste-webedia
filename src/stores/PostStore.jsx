@@ -1,13 +1,16 @@
 import dispatcher from '../Dispatcher'
 import axios from 'axios'
 import { EventEmitter } from 'events';
+import { mobileStore } from './MobileStore';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001/'
+  baseURL: 'http://localhost:3001/',
+  headers: { 'Content-Type': 'application/json' }
 });
 
 export const EVENTS = {
-  NEW_POSTS: 'NEW_POSTS',
+  GET_POSTS: 'GET_POSTS',
+  MORE_POSTS: 'MORE_POSTS',
 }
 
 class PostStore extends EventEmitter {
@@ -18,7 +21,7 @@ class PostStore extends EventEmitter {
 
     if (scroll >= height && !this.morePostsLock) {
       this.morePostsLock = true
-      this.getMorePosts(++this.limit)
+      this.getMorePosts()
     }
   }
 
@@ -40,19 +43,34 @@ class PostStore extends EventEmitter {
     const offset = 100
     const scroll = this._onScroll(offset)
 
+    let scrollIsOn = true
     window.addEventListener('scroll', scroll)
+
+    mobileStore.onResize(mobile => {
+
+      if (mobile && !scrollIsOn) {
+        window.addEventListener('scroll', scroll)
+
+      } else if (!mobile && scrollIsOn) {
+        window.removeEventListener('scroll', scroll)
+
+      }
+
+    })
+
   }
 
-  getMorePosts(limit) {
-    api
-      .get(`posts?limit=${limit}`)
-      .then(posts => {
-        this.data.posts = [...this.data.posts, ...posts.data.posts]
-        this.emit(EVENTS.NEW_POSTS, this.data)
+  getMorePosts() {
+    return api
+      .get(`posts?limit=${this.limit++}`)
+      .then(rs => {
+        console.log('Recebendo mais posts...', rs.data.posts)
+        this.data.posts = [...this.data.posts, ...rs.data.posts]
+        this.emit(EVENTS.MORE_POSTS, this.data)
         this.morePostsLock = false
-      })
 
-    return this.data.posts
+        return rs
+      })
   }
 
   getPosts() {
@@ -60,7 +78,7 @@ class PostStore extends EventEmitter {
       .get(`posts`)
       .then(posts => {
         this.data = posts.data
-        this.emit(EVENTS.NEW_POSTS, this.data)
+        this.emit(EVENTS.GET_POSTS, this.data)
       })
 
     return this.data.posts
