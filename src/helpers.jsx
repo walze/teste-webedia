@@ -1,4 +1,4 @@
-export const isMobile = () => window.innerWidth < 769
+export const isMobile = () => window.innerWidth < 767
 
 /**
  * @param { HTMLElement[] } el

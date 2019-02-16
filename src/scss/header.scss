@@ -8,7 +8,7 @@ $ball-size: ($width / 2.1) - ($button-padX * 2.1);
   flex-wrap: wrap;
   flex-direction: column;
 
-  @media (max-width: 769px) {
+  @media (max-width: 767px) {
     flex-direction: row-reverse;
     flex-wrap: nowrap;
   }
@@ -93,7 +93,7 @@ $ball-size: ($width / 2.1) - ($button-padX * 2.1);
     }
 
     .line {
-      @media (max-width: 769px) {
+      @media (max-width: 767px) {
         background: $white;
       }
       height: 2px;

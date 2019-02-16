@@ -8,7 +8,7 @@ import { postStore, EVENTS } from './stores/PostStore'
 class App extends Component {
 
   state = {
-    posts: postStore.all,
+    posts: postStore.getPosts(),
     top5: []
   }
 

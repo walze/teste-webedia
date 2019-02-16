@@ -12,20 +12,58 @@ export const EVENTS = {
 
 class PostStore extends EventEmitter {
 
-  constructor() {
-    super()
-    this.posts = []
+  _onScroll = (offset) => () => {
+    const scroll = window.scrollY + window.outerHeight + offset
+    const height = document.body.scrollHeight
+
+    if (scroll >= height && !this.morePostsLock) {
+      this.morePostsLock = true
+      this.getMorePosts(++this.limit)
+    }
   }
 
-  get all() {
+  constructor() {
+    super()
+    this.data = {
+      posts: [],
+      top5: []
+    }
+    this.limit = 1
+    this.morePostsLock = false
+
+    this._infiniteScroll()
+
+    console.log(this)
+  }
+
+  _infiniteScroll() {
+    const offset = 100
+    const scroll = this._onScroll(offset)
+
+    window.addEventListener('scroll', scroll)
+  }
+
+  getMorePosts(limit) {
     api
-      .get('posts')
+      .get(`posts?limit=${limit}`)
       .then(posts => {
-        this.posts = posts.data
-        this.emit(EVENTS.NEW_POSTS, this.posts)
+        this.data.posts = [...this.data.posts, ...posts.data.posts]
+        this.emit(EVENTS.NEW_POSTS, this.data)
+        this.morePostsLock = false
       })
 
-    return this.posts
+    return this.data.posts
+  }
+
+  getPosts() {
+    api
+      .get(`posts`)
+      .then(posts => {
+        this.data = posts.data
+        this.emit(EVENTS.NEW_POSTS, this.data)
+      })
+
+    return this.data.posts
   }
 
   handleActions = action => {

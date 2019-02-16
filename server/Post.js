@@ -4,14 +4,18 @@ const db = require('./DB')
 // nesse caso em especifico, a contagem de likes poderia ficar na tabela de posts
 module.exports = class Post {
 
-  static async all(start) {
+  static get postPerReq() {
+    return 4
+  }
+
+  static async all(limit) {
     const q = `
       SELECT * 
       FROM \`posts\` as t1 
       LEFT JOIN \`likes\` as t2 
       ON t1.id = t2.post_id
       ORDER BY date DESC
-      LIMIT ${start || 0}, 4
+      LIMIT ${(limit * this.postPerReq) || 0}, ${this.postPerReq}
     `
 
     const [posts] = await db.conn.execute(q)
