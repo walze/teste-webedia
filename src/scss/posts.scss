@@ -89,6 +89,12 @@
         background: rgba($color: #fff, $alpha: 0.5);
       }
 
+      &.liked {
+        .icon {
+          color: red;
+        }
+      }
+
       position: absolute;
       right: 3%;
       bottom: 5%;

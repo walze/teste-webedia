@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { postStore } from '../stores/PostStore';
 
 export class PostImage extends React.Component {
 
@@ -8,17 +9,24 @@ export class PostImage extends React.Component {
     e.preventDefault()
     e.stopPropagation()
 
-    console.log('like', e)
+    this.props.onLike()
   }
 
   render() {
+    const alreadyLiked = postStore.checkIfLiked(this.props.post.id)
+    const likeClass = alreadyLiked ? 'liked' : ''
+
     return (
       <div className="img" hidden={this.props.hidden}>
         <img src="https://via.placeholder.com/320" alt="" />
 
-        <div className="likes" hidden={this.props.simple} onClick={this._like}>
+        <div className={`likes ${likeClass}`} hidden={this.props.simple} onClick={this._like}>
           <div className="icon"><i className="fi fi-heart"></i></div>
-          <div className="count">{this.props.likes}</div>
+          <div className="count">
+            <b>
+              {this.props.post.count}
+            </b>
+          </div>
         </div>
       </div>
     )

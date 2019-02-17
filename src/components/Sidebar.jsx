@@ -6,8 +6,12 @@ export class Sidebar extends React.Component {
   render() {
     return (
       <div className="sidebar">
-        {this.props.posts.map((data, i) =>
-          <Post key={i} simple={true} {...data} />
+        {this.props.posts.map(data =>
+          <Post
+            simple={true}
+            key={data.id}
+            data={data}
+          />
         )}
       </div>
     )

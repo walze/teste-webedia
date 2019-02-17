@@ -45,20 +45,28 @@ export class Posts extends React.Component {
   }
 
   render() {
-
+    console.log(this.props.posts)
     return (
       <div>
         <div className="posts mobile">
           <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
-            {this.props.posts.map((data, i) =>
-              <Post mobile={this.state.mobile} key={i} {...data} />
+            {this.props.posts.map(data =>
+              <Post
+                mobile={this.state.mobile}
+                key={data.id}
+                data={data}
+              />
             )}
           </TinySlider>
         </div>
 
         <div className="posts" ref={this.posts}>
-          {this.props.posts.map((data, i) =>
-            <Post mobile={this.state.mobile} key={i} {...data} />
+          {this.props.posts.map(data =>
+            <Post
+              mobile={this.state.mobile}
+              key={data.id}
+              data={data}
+            />
           )}
         </div>
       </div>

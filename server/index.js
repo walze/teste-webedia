@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 app.use(function (_, rs, next) {
+  rs.setHeader('Content-Type', 'application/json')
   rs.header("Access-Control-Allow-Origin", "*")
   rs.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -16,9 +17,11 @@ app.use(function (_, rs, next) {
 // like/dislike
 app.all('/like/:id', async (rq, rs) => {
   const post = await Post.find(rq.params.id)
-    .catch((...args) => rs.status(500).send(args))
+    .catch((...args) => {
+      rs.status(403).send(args).end()
+    })
 
-  if (!post) return rs.status(404).send('404 Not Found')
+  if (!post) return rs.status(404).send('404 Not Found').end()
 
   if (rq.method === 'GET')
     post.like()
@@ -33,10 +36,14 @@ app.all('/like/:id', async (rq, rs) => {
 app.get('/posts', async (rq, rs) => {
   const { limit } = rq.query
   const posts = await Post.all(limit)
-    .catch((...args) => rs.status(500).send(args))
+    .catch((...args) => {
+      rs.status(403).send(args).end()
+    })
 
   const top5 = await Post.top5()
-    .catch((...args) => rs.status(500).send(args))
+    .catch((...args) => {
+      rs.status(403).send(args).end()
+    })
 
   rs.send({ posts, top5 })
 })
@@ -44,7 +51,9 @@ app.get('/posts', async (rq, rs) => {
 // 1 post
 app.get('/posts/:id', async (rq, rs) => {
   const post = await Post.find(rq.params.id)
-    .catch((...args) => rs.status(500).send(args))
+    .catch((...args) => {
+      rs.status(403).send(args).end()
+    })
 
   rs.send(post)
 })
@@ -52,7 +61,9 @@ app.get('/posts/:id', async (rq, rs) => {
 // delete post
 app.delete('/posts/:id', async (rq, rs) => {
   const post = await Post.delete(rq.params.id)
-    .catch((...args) => rs.status(500).send(args))
+    .catch((...args) => {
+      rs.status(403).send(args).end()
+    })
 
   rs.send(post)
 })

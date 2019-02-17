@@ -9,13 +9,16 @@ module.exports = class Post {
   }
 
   static async all(limit) {
+
+    const lmt = limit && limit !== '0' ? (limit * this.postPerReq + 1) : 0
+
     const q = `
       SELECT * 
       FROM \`posts\` as t1 
       LEFT JOIN \`likes\` as t2 
       ON t1.id = t2.post_id
-      ORDER BY date DESC
-      LIMIT ${(limit * this.postPerReq) || 0}, ${this.postPerReq}
+      ORDER BY date DESC, id DESC
+      LIMIT ${lmt}, ${this.postPerReq}
     `
 
     const [posts] = await db.conn.execute(q)

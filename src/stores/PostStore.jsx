@@ -11,6 +11,7 @@ const api = axios.create({
 export const EVENTS = {
   GET_POSTS: 'GET_POSTS',
   MORE_POSTS: 'MORE_POSTS',
+  LIKE: 'LIKE'
 }
 
 class PostStore extends EventEmitter {
@@ -29,8 +30,9 @@ class PostStore extends EventEmitter {
     super()
     this.data = {
       posts: [],
-      top5: []
+      top5: [],
     }
+    this.likedPosts = JSON.parse(window.localStorage.getItem('LIKED_POSTS'))
     this.limit = 1
     this.morePostsLock = false
 
@@ -40,7 +42,7 @@ class PostStore extends EventEmitter {
   }
 
   _infiniteScroll() {
-    const offset = 100
+    const offset = 400
     const scroll = this._onScroll(offset)
 
     let scrollIsOn = true
@@ -71,6 +73,7 @@ class PostStore extends EventEmitter {
 
         return rs
       })
+      .catch(console.error)
   }
 
   getPosts() {
@@ -80,12 +83,51 @@ class PostStore extends EventEmitter {
         this.data = posts.data
         this.emit(EVENTS.GET_POSTS, this.data)
       })
+      .catch(console.error)
 
     return this.data.posts
   }
 
-  handleActions = action => {
-    console.log('action', action)
+  checkIfLiked = id => this.likedPosts.includes(id)
+
+  like(id) {
+    const alreadyLiked = this.checkIfLiked(id)
+    if (alreadyLiked) return
+
+    api
+      .get(`like/${id}`)
+      .then(({ data }) => this._replacePost(data))
+      .catch(console.error)
+
+    this.likedPosts.push(id)
+    window.localStorage.setItem('LIKED_POSTS', JSON.stringify(this.likedPosts))
+  }
+
+  _replacePost(post) {
+    this.data.posts = this.data.posts.map(p => {
+      if (post.id === p.id)
+        return post
+      else
+        return p
+    })
+
+    this.emit(EVENTS.GET_POSTS, this.data)
+  }
+
+  /**
+   * @type { (action: {type: string, payload: any}) => void}
+   */
+  handleActions = ({ type, payload }) => {
+    console.log('action', { type, payload })
+
+    switch (type) {
+      case EVENTS.LIKE:
+        this.like(payload.id)
+        break;
+
+      default:
+        break;
+    }
   }
 }
 
