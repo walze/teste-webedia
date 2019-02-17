@@ -5,7 +5,6 @@ class MobileStore extends EventEmitter {
 
   constructor() {
     super()
-    this.setMaxListeners(50)
 
     this.isMobile = isMobile()
 
@@ -14,12 +13,16 @@ class MobileStore extends EventEmitter {
 
       this.emit('resize', this.isMobile)
     })
+
+    console.log(this)
   }
 
   /**
    * @type { (isMobile: boolean) => void }
    */
   onResize = (cb) => this.on('resize', cb)
+
+  offResize = (cb) => this.off('resize', cb)
 }
 
 

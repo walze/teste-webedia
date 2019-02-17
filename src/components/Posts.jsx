@@ -1,8 +1,9 @@
 import React from 'react'
 import { Post } from './Post';
 
-import TinySlider from "tiny-slider-react";
-import { postStore } from '../stores/PostStore';
+import TinySlider from "tiny-slider-react"
+import { postStore } from '../stores/PostStore'
+import { mobileStore } from '../stores/MobileStore'
 
 const settings = {
   items: 1,
@@ -12,14 +13,22 @@ const settings = {
   nav: true,
 };
 
-
-
 export class Posts extends React.Component {
 
   ts = React.createRef()
 
-  componentDidMount() {
-    console.log(this.ts.current)
+  state = {
+    mobile: mobileStore.isMobile
+  }
+
+  _onResize = mobile => this.setState({ mobile })
+
+  componentWillMount() {
+    mobileStore.onResize(this._onResize)
+  }
+
+  componentWillUnmount() {
+    mobileStore.onResize(this._onResize)
   }
 
   _sliderListen() {
@@ -42,14 +51,14 @@ export class Posts extends React.Component {
         <div className="posts mobile">
           <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
             {this.props.posts.map((data, i) =>
-              <Post key={i} {...data} />
+              <Post mobile={this.state.mobile} key={i} {...data} />
             )}
           </TinySlider>
         </div>
 
         <div className="posts" ref={this.posts}>
           {this.props.posts.map((data, i) =>
-            <Post key={i} {...data} />
+            <Post mobile={this.state.mobile} key={i} {...data} />
           )}
         </div>
       </div>

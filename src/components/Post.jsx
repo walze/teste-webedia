@@ -1,24 +1,14 @@
 
 import React from 'react'
-import { mobileStore } from '../stores/MobileStore'
 import { PostImage } from './PostImage';
 
 export class Post extends React.Component {
 
-  state = {
-    mobile: mobileStore.isMobile
-  }
-
-  componentDidMount() {
-    mobileStore.onResize(mobile => {
-      this.setState({ mobile })
-    })
-  }
 
   render() {
     const simple = !!this.props.simple
     const simpleClass = simple ? 'simple' : ''
-    const imageAfter = this.state.mobile && simple
+    const imageAfter = this.props.mobile && simple
 
     return (
       <div className={`post ${simpleClass}`}>
