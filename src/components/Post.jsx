@@ -5,13 +5,17 @@ import { PostImage } from './PostImage';
 export class Post extends React.Component {
 
 
+  click = e => {
+    console.log('post', e)
+  }
+
   render() {
     const simple = !!this.props.simple
     const simpleClass = simple ? 'simple' : ''
     const imageAfter = this.props.mobile && simple
 
     return (
-      <div className={`post ${simpleClass}`}>
+      <div className={`post ${simpleClass}`} onClick={this.click}>
         <PostImage likes={this.props.count} simple={simple} />
 
         <div className="body">

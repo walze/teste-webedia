@@ -5,21 +5,31 @@ export class ThemeBtn extends React.Component {
 
   _btn = React.createRef()
   state = {
-    active: false
+    dark: false
+  }
+
+  componentDidMount() {
+    const darkTheme = window.localStorage.getItem('DARK_THEME') === 'true'
+
+    if (darkTheme) this._click()
   }
 
   _click = () => {
     const { current: btn } = this._btn
     const [text, ball] = btn.children
+    const [dark] = toggleClass([text, ball], 'active')
 
-    const [active] = toggleClass([text, ball], 'active')
-    this.setState({ active })
+    this.setState({ dark })
+    this._changeTheme(dark)
+    window.localStorage.setItem('DARK_THEME', dark)
+  }
 
+  _changeTheme(removeDark) {
     // TEMPORARIO?
-    // POSSIBLE FIX: ADICIONAR CLASSE .DARKABLE EM ELEMENTOS?
-    // POSSIBLE FIX: EMITIR EVENTO PARA APP.JSX, SELECIONAR ELEMENTOS COM .DARKABLE LA?
+    // POSSIVEL FIX: ADICIONAR CLASSE .DARKABLE EM ELEMENTOS?
+    // POSSIVEL FIX: EMITIR EVENTO PARA APP.JSX, SELECIONAR ELEMENTOS COM .DARKABLE LA?
     const TEMP_ALL = Array.from(document.body.querySelectorAll('*'))
-    toggleClass(TEMP_ALL, 'dark')
+    toggleClass(TEMP_ALL, 'dark', !removeDark)
   }
 
   render() {
@@ -27,7 +37,7 @@ export class ThemeBtn extends React.Component {
       <div className="theme-btn" onClick={this._click}>
         <div className='button' ref={this._btn}>
           <div className="text">
-            {this.state.active ? 'DARK' : 'LIGHT'}
+            {this.state.dark ? 'DARK' : 'LIGHT'}
           </div>
           <div className="ball"></div>
         </div>

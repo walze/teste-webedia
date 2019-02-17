@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  transition: 0.1s linear all, color 0s;
+  transition: 0.1s linear background-color;
 }
 
 [hidden] {
@@ -28,7 +28,7 @@ body {
 
   width: 100%;
   max-width: 100vw;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   overflow-x: hidden;
 }
 
