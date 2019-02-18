@@ -76,6 +76,7 @@ module.exports = class Post {
   constructor(obj) {
     this.id = Number(obj.id) || null
     this.title = obj.title
+    this.link = obj.link
     this.image = obj.image
     this.description = obj.description
     this.date = obj.date || getCurrentDateTimeMySql()
@@ -113,12 +114,12 @@ module.exports = class Post {
     // cria novo post
     const q = `
       INSERT INTO \`posts\` 
-        (title, description, date, site_name, image)
+        (title, description, date, site_name, image, link)
       VALUES 
-        (?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?)
     `
 
-    const [res] = await db.query(q, [this.title, this.description, this.date, this.site_name, this.image])
+    const [res] = await db.query(q, [this.title, this.description, this.date, this.site_name, this.image, this.link])
     this.id = res.insertId
 
     // cria novo like

@@ -6,9 +6,8 @@ import { timeAgo } from '../helpers'
 
 export class Post extends React.Component {
 
-
-  click = e => {
-    console.log('post', e)
+  click = () => {
+    window.open(this.props.data.link)
   }
 
   _like = () => {

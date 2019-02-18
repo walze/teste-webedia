@@ -73,11 +73,9 @@ app.delete('/posts/:id', async (rq, rs) => {
 app.post('/posts', async (rq, rs) => {
   const post = new Post(rq.body)
   const result = await post.save()
+  const newPost = await Post.find(result.insertId)
 
-  rs.send({
-    post,
-    result
-  })
+  rs.send(newPost)
 })
 
 app.listen(3001, function () {

@@ -14,11 +14,18 @@ const api = axios.create({
   headers
 })
 
-const makePost = ({ title, description, site_name, image }) => ({
+const makePost = ({
   title,
   description,
   site_name,
-  image
+  image,
+  link
+}) => ({
+  title,
+  description,
+  site_name,
+  image,
+  link
 })
 
 
@@ -71,24 +78,31 @@ class PostStore extends EventEmitter {
   }
 
   newPost = async url => {
-    const post = await this.craftPost(url)
+    const post = await this.getMetaData(url)
 
     console.log(post)
     api
       .post('posts', post)
-      .then(console.log)
+      .then(({ data }) => {
+        const newArr = [...this.data.posts]
+        newArr.unshift(data)
+
+        this.data.posts = newArr
+        this.emit(EVENTS.MORE_POSTS, this.data)
+      })
       .catch(console.warn)
   }
 
-  craftPost(url) {
+  getMetaData(url) {
     return axios
       .get(`https://cors-anywhere.herokuapp.com/${url}`, { headers })
       .then(({ data }) => {
-        const el = document.createElement('div')
-
+        const el = document.createElement('html')
         el.innerHTML = data
 
-        const obj = {}
+        const obj = {
+          link: url
+        }
         Array
           .from(el.querySelectorAll('meta'))
           .map(meta => {
