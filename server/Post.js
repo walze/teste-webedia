@@ -1,5 +1,12 @@
 const db = require('./DB')
 
+function getCurrentDateTimeMySql() {
+  var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+  var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace('T', ' ');
+  var mySqlDT = localISOTime;
+  return mySqlDT;
+}
+
 // fiz likes em uma tabela separada apenas mostrar meus conhecimentos de relações
 // nesse caso em especifico, a contagem de likes poderia ficar na tabela de posts
 module.exports = class Post {
@@ -70,60 +77,60 @@ module.exports = class Post {
     this.id = Number(obj.id) || null
     this.title = obj.title
     this.body = obj.body
-    this.date = obj.date || new Date().toISOString()
-    this.author = obj.author
-    this.count = obj.count || 0
-  }
+    this.date = obj.date || getCurrentDateTimeMySql()
+  this.author = obj.author
+  this.count = obj.count || 0
+}
 
-  dislike() {
-    if (this.count <= 0) return
+dislike() {
+  if (this.count <= 0) return
 
-    this.count--
-    return this._updateLike()
-  }
+  this.count--
+  return this._updateLike()
+}
 
-  like() {
-    this.count++
-    return this._updateLike()
-  }
+like() {
+  this.count++
+  return this._updateLike()
+}
 
-  _updateLike() {
-    const q = `
+_updateLike() {
+  const q = `
       UPDATE likes
       SET count = ${this.count}
       WHERE post_id = ${this.id}
     `
 
-    return db.query(q)
-  }
+  return db.query(q)
+}
 
-  save() {
-    return this._newPost()
-  }
+save() {
+  return this._newPost()
+}
 
-  async _newPost() {
-    // cria novo post
-    const q = `
+async _newPost() {
+  // cria novo post
+  const q = `
       INSERT INTO \`posts\` 
         (title, body, date, author)
       VALUES 
         ('${this.title}', '${this.body}', '${this.date}', '${this.author}')
     `
 
-    const [res] = await db.query(q)
-    this.id = res.insertId
+  const [res] = await db.query(q)
+  this.id = res.insertId
 
-    // cria novo like
-    const q2 = `
+  // cria novo like
+  const q2 = `
       INSERT INTO \`likes\` 
         (post_id, count)
       VALUES 
         ('${this.id}', ${this.count})
     `
 
-    db.query(q2)
+  db.query(q2)
 
-    return res
-  }
+  return res
+}
 
 }
