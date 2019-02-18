@@ -18,7 +18,7 @@ export class PostImage extends React.Component {
 
     return (
       <div className="img" hidden={this.props.hidden}>
-        <img src="https://via.placeholder.com/320" alt="" />
+        <img src={this.props.post.image || "https://via.placeholder.com/320"} alt="" />
 
         <div className={`likes ${likeClass}`} hidden={this.props.simple} onClick={this._like}>
           <div className="icon"><i className="fi fi-heart"></i></div>

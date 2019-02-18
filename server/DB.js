@@ -3,6 +3,7 @@ const mysql = require('mysql2')
 class DB {
 
   constructor() {
+    this.mysql = mysql
     this._createConn = () => mysql.createConnection({
       host: 'localhost',
       user: 'root',

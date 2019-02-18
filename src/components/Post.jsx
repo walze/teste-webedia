@@ -38,14 +38,14 @@ export class Post extends React.Component {
           </h4>
 
           <p className="description">
-            {this.props.data.body}
+            {this.props.data.description}
           </p>
 
           <div className="footer">
 
             <div hidden={mobile || simple}>
               <i className="fi fi-earth icon-margin"></i>
-              <span>{this.props.data.author}</span>
+              <span>{this.props.data.site_name}</span>
             </div>
 
             <div hidden={simple && !mobile}>

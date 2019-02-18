@@ -76,61 +76,62 @@ module.exports = class Post {
   constructor(obj) {
     this.id = Number(obj.id) || null
     this.title = obj.title
-    this.body = obj.body
+    this.image = obj.image
+    this.description = obj.description
     this.date = obj.date || getCurrentDateTimeMySql()
-  this.author = obj.author
-  this.count = obj.count || 0
-}
+    this.site_name = obj.site_name
+    this.count = obj.count || 0
+  }
 
-dislike() {
-  if (this.count <= 0) return
+  dislike() {
+    if (this.count <= 0) return
 
-  this.count--
-  return this._updateLike()
-}
+    this.count--
+    return this._updateLike()
+  }
 
-like() {
-  this.count++
-  return this._updateLike()
-}
+  like() {
+    this.count++
+    return this._updateLike()
+  }
 
-_updateLike() {
-  const q = `
+  _updateLike() {
+    const q = `
       UPDATE likes
       SET count = ${this.count}
       WHERE post_id = ${this.id}
     `
 
-  return db.query(q)
-}
+    return db.query(q)
+  }
 
-save() {
-  return this._newPost()
-}
+  save() {
+    return this._newPost()
+  }
 
-async _newPost() {
-  // cria novo post
-  const q = `
+  async _newPost() {
+    // cria novo post
+    const q = `
       INSERT INTO \`posts\` 
-        (title, body, date, author)
+        (title, description, date, site_name, image)
       VALUES 
-        ('${this.title}', '${this.body}', '${this.date}', '${this.author}')
+        (?, ?, ?, ?, ?)
     `
 
-  const [res] = await db.query(q)
-  this.id = res.insertId
+    const [res] = await db.query(q, [this.title, this.description, this.date, this.site_name, this.image])
+    this.id = res.insertId
 
-  // cria novo like
-  const q2 = `
+    // cria novo like
+    const q2 = `
       INSERT INTO \`likes\` 
         (post_id, count)
       VALUES 
         ('${this.id}', ${this.count})
     `
 
-  db.query(q2)
+    db.query(q2)
 
-  return res
-}
+    return res
+  }
 
 }

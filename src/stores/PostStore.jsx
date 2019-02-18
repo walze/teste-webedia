@@ -4,10 +4,23 @@ import { EventEmitter } from 'events'
 import { mobileStore } from './MobileStore'
 import EVENTS from '../events'
 
+const headers = {
+  'Content-Type': 'application/json',
+  'X-Requested-With': 'XMLHttpRequest'
+}
+
 const api = axios.create({
   baseURL: 'http://localhost:3001/',
-  headers: { 'Content-Type': 'application/json' }
+  headers
 })
+
+const makePost = ({ title, description, site_name, image }) => ({
+  title,
+  description,
+  site_name,
+  image
+})
+
 
 
 class PostStore extends EventEmitter {
@@ -55,7 +68,46 @@ class PostStore extends EventEmitter {
       }
 
     })
+  }
 
+  newPost = async url => {
+    const post = await this.craftPost(url)
+
+    console.log(post)
+    api
+      .post('posts', post)
+      .then(console.log)
+      .catch(console.warn)
+  }
+
+  craftPost(url) {
+    return axios
+      .get(`https://cors-anywhere.herokuapp.com/${url}`, { headers })
+      .then(({ data }) => {
+        const el = document.createElement('div')
+
+        el.innerHTML = data
+
+        const obj = {}
+        Array
+          .from(el.querySelectorAll('meta'))
+          .map(meta => {
+            const { content } = meta
+
+            return {
+              name: meta.getAttribute('property'),
+              content
+            }
+          })
+          .filter(a => a.name && a.name.match(/og:.+/))
+          .map(meta => {
+            const name = meta.name.replace('og:', '')
+
+            return obj[name] = meta.content
+          })
+
+        return makePost(obj)
+      })
   }
 
   getMorePosts() {
