@@ -20,8 +20,6 @@
       color: $dark-blue;
     }
   }
-
-
 }
 
 .posts {
@@ -41,7 +39,6 @@
       display: none;
     }
   }
-
 }
 
 .post {
@@ -49,6 +46,8 @@
     width: auto;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   &:hover {
@@ -101,10 +100,15 @@
     color: $dark-blue;
     overflow: hidden;
     height: 225px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 
     .likes {
+      background: rgba($color: $white, $alpha: 0.5);
+
       &:hover {
-        background: rgba($color: #fff, $alpha: 0.5);
+        background: rgba($color: $dark-blue, $alpha: 0.5);
       }
 
       &.liked {
@@ -125,13 +129,16 @@
       }
     }
 
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-    }
+    // img {
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    //   width: 100%;
+    //   height: auto;
+    //   object-fit: cover;
+    //   // max-height: 100%;
+    // }
   }
 
   .body {

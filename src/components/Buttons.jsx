@@ -3,8 +3,9 @@ import { toggleClass } from '../helpers'
 import { themeChange } from '../actions/general'
 import generalEmitter from '../stores/general'
 import EVENTS from '../events'
+import { postStore } from '../stores/PostStore';
 
-export class ThemeBtn extends React.Component {
+export class Buttons extends React.Component {
 
   _btn = React.createRef()
   state = {
@@ -33,14 +34,23 @@ export class ThemeBtn extends React.Component {
     toggleClass(TEMP_ALL, 'dark', !removeDark)
   }
 
+
+  newPost = () => {
+    const url = prompt('Digite a URL')
+    postStore.newPost(url)
+  }
+
   render() {
     return (
-      <div className="theme-btn" onClick={themeChange}>
-        <div className='button' ref={this._btn}>
-          <div className="text">
-            {this.state.dark ? 'DARK' : 'LIGHT'}
+      <div className="buttons">
+        <div className="add" onClick={this.newPost}>Add News +</div>
+        <div className="theme-btn" onClick={themeChange}>
+          <div className='button' ref={this._btn}>
+            <div className="text">
+              {this.state.dark ? 'DARK' : 'LIGHT'}
+            </div>
+            <div className="ball"></div>
           </div>
-          <div className="ball"></div>
         </div>
       </div>
     )

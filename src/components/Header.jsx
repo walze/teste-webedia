@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeBtn } from './ThemeBtn'
+import { Buttons } from './Buttons'
 
 export class Header extends React.Component {
 
@@ -8,7 +8,7 @@ export class Header extends React.Component {
     return (
       <div className='header'>
 
-        <ThemeBtn />
+        <Buttons />
 
         <div className='heading'>
           <h3 className='news'>NEWS</h3>

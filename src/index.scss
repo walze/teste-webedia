@@ -13,7 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  transition: 0.1s linear background-color;
+  transition: 0.1s linear background-color, 0.1s position, 0.1s left, 0.1s right, 0.1s margin, 0.1s margin-right,
+    0.1s margin-left;
 }
 
 [hidden] {

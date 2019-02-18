@@ -29,16 +29,9 @@ class App extends Component {
     if (darkTheme) themeChange()
   }
 
-  newPost = () => {
-    const url = prompt('Digite a URL')
-    postStore.newPost(url)
-  }
-
   render() {
     return (
       <div className="App">
-        <button onClick={this.newPost}>ADD NEW NEWS</button>
-
         <div className="main-wrapper">
           <div className='main'>
             <Header />
