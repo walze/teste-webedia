@@ -1,13 +1,13 @@
-import dispatcher from '../Dispatcher'
+import dispatcher from '../dispatcher'
 import axios from 'axios'
-import { EventEmitter } from 'events';
-import { mobileStore } from './MobileStore';
+import { EventEmitter } from 'events'
+import { mobileStore } from './MobileStore'
 import EVENTS from '../events'
 
 const api = axios.create({
   baseURL: 'http://localhost:3001/',
   headers: { 'Content-Type': 'application/json' }
-});
+})
 
 
 class PostStore extends EventEmitter {
@@ -119,10 +119,10 @@ class PostStore extends EventEmitter {
     switch (type) {
       case EVENTS.LIKE:
         this.like(payload.id)
-        break;
+        break
 
       default:
-        break;
+        break
     }
   }
 }

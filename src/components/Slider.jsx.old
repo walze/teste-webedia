@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { tns } from "tiny-slider/src/tiny-slider"
-import { mobileStore } from '../stores/MobileStore';
+import { mobileStore } from '../stores/MobileStore'
 import { postStore, EVENTS } from '../stores/PostStore'
-import { Post } from './Post';
+import { Post } from './Post'
 
 const makeTns = () => tns({
   container: ".slider",

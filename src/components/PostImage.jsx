@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { postStore } from '../stores/PostStore';
+import { postStore } from '../stores/PostStore'
 
 export class PostImage extends React.Component {
 

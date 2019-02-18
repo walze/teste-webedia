@@ -1,5 +1,5 @@
-import dispatcher from "../Dispatcher"
-import EVENTS from "../events";
+import dispatcher from "../dispatcher"
+import EVENTS from "../events"
 import { EventEmitter } from "events"
 
 const generalEmitter = new EventEmitter()
@@ -9,10 +9,10 @@ export function general({ type, payload } = {}) {
   switch (type) {
     case EVENTS.THEME_CHANGE:
       generalEmitter.emit(type)
-      break;
+      break
 
     default:
-      break;
+      break
   }
 }
 

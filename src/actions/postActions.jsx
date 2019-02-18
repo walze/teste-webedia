@@ -1,4 +1,4 @@
-import dispatcher from './../Dispatcher'
+import dispatcher from '../dispatcher'
 import EVENTS from '../events'
 
 export const likePost = payload =>

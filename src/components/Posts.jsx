@@ -1,5 +1,5 @@
 import React from 'react'
-import { Post } from './Post';
+import { Post } from './Post'
 
 import TinySlider from "tiny-slider-react"
 import { postStore } from '../stores/PostStore'
@@ -11,7 +11,7 @@ const settings = {
   mouseDrag: true,
   controls: false,
   nav: true,
-};
+}
 
 export class Posts extends React.Component {
 

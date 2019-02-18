@@ -108,7 +108,7 @@ module.exports = class Post {
         (title, body, date, author)
       VALUES 
         ('${this.title}', '${this.body}', '${this.date}', '${this.author}')
-    ;`
+    `
 
     const [res] = await db.query(q)
     this.id = res.insertId

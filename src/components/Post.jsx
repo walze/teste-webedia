@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { PostImage } from './PostImage';
-import { likePost } from './../actions/postActions';
+import { PostImage } from './PostImage'
+import { likePost } from './../actions/postActions'
 
 export class Post extends React.Component {
 

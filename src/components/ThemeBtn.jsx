@@ -1,8 +1,8 @@
 import React from 'react'
-import { toggleClass } from '../helpers';
+import { toggleClass } from '../helpers'
 import { themeChange } from '../actions/general'
-import generalEmitter from '../stores/general';
-import EVENTS from '../events';
+import generalEmitter from '../stores/general'
+import EVENTS from '../events'
 
 export class ThemeBtn extends React.Component {
 
