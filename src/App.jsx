@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Header } from './components/Header'
 import { Posts } from './components/Posts'
 import { Sidebar } from './components/Sidebar'
-import { postStore, EVENTS } from './stores/PostStore'
+import { postStore } from './stores/PostStore'
+import EVENTS from './events'
+import { themeChange } from './actions/general'
 
 
 class App extends Component {
@@ -20,6 +22,11 @@ class App extends Component {
   componentWillUnmount() {
     postStore.off(EVENTS.GET_POSTS, this._updatePosts)
     postStore.off(EVENTS.MORE_POSTS, this._updatePosts)
+  }
+
+  componentDidMount() {
+    const darkTheme = window.localStorage.getItem('DARK_THEME') === 'true'
+    if (darkTheme) themeChange()
   }
 
   render() {

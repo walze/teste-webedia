@@ -1,0 +1,9 @@
+
+const EVENTS = {
+  GET_POSTS: 'GET_POSTS',
+  MORE_POSTS: 'MORE_POSTS',
+  LIKE: 'LIKE',
+  THEME_CHANGE: 'THEME_CHANGE'
+}
+
+export default EVENTS

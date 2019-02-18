@@ -2,17 +2,13 @@ import dispatcher from '../Dispatcher'
 import axios from 'axios'
 import { EventEmitter } from 'events';
 import { mobileStore } from './MobileStore';
+import EVENTS from '../events'
 
 const api = axios.create({
   baseURL: 'http://localhost:3001/',
   headers: { 'Content-Type': 'application/json' }
 });
 
-export const EVENTS = {
-  GET_POSTS: 'GET_POSTS',
-  MORE_POSTS: 'MORE_POSTS',
-  LIKE: 'LIKE'
-}
 
 class PostStore extends EventEmitter {
 
@@ -32,7 +28,7 @@ class PostStore extends EventEmitter {
       posts: [],
       top5: [],
     }
-    this.likedPosts = JSON.parse(window.localStorage.getItem('LIKED_POSTS'))
+    this.likedPosts = JSON.parse(window.localStorage.getItem('LIKED_POSTS')) || []
     this.limit = 1
     this.morePostsLock = false
 
