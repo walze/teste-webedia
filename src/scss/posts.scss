@@ -1,3 +1,29 @@
+.posts.dark .post,
+.sidebar.dark .post {
+  &.simple {
+    @media (max-width: 767px) {
+      background: $dark-blue;
+    }
+    color: $white;
+
+    .footer i {
+      color: $white;
+    }
+  }
+
+  .header,
+  .description,
+  .footer {
+    color: $white;
+
+    & i {
+      color: $dark-blue;
+    }
+  }
+
+
+}
+
 .posts {
   display: flex;
   flex-wrap: wrap;
@@ -9,11 +35,13 @@
       display: none;
     }
   }
+
   @media (min-width: 767px) {
     &.mobile {
       display: none;
     }
   }
+
 }
 
 .post {
@@ -48,22 +76,12 @@
       align-items: center;
       margin: 1rem;
 
-      &.dark {
-        background: $dark-blue;
-      }
-
       .body {
         padding: 0;
         margin-right: 2rem;
+
         .description {
           margin-bottom: 1rem;
-        }
-        .footer {
-          i {
-            &.dark {
-              color: $white;
-            }
-          }
         }
       }
 
@@ -101,6 +119,7 @@
       display: flex;
       padding: 0.5rem;
       border-radius: 10px;
+
       .icon {
         margin-right: 5px;
       }

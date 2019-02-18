@@ -1,0 +1,114 @@
+import React from 'react'
+import { Post } from './Post'
+
+import TinySlider from "tiny-slider-react"
+import { postStore } from '../stores/PostStore'
+import { mobileStore } from '../stores/MobileStore'
+
+const settings = {
+  items: 1,
+  slideBy: "page",
+  mouseDrag: true,
+  controls: false,
+  nav: true,
+}
+
+export class Posts extends React.Component {
+
+  ts = React.createRef()
+  lastIndex = null
+  limit = postStore.limit
+
+  state = {
+    mobile: mobileStore.isMobile,
+    mobilePosts: []
+  }
+
+  _onResize = mobile => this.setState({ mobile })
+
+  componentWillMount() {
+    mobileStore.onResize(this._onResize)
+  }
+  componentWillUnmount() {
+    mobileStore.onResize(this._onResize)
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.posts) {
+      this.setState({
+        mobilePosts: this._getMobilePosts(props.posts)
+      })
+    }
+  }
+
+  _sliderListen = () => {
+    const obj = this.ts.current.slider.getInfo()
+    const { navCurrentIndex, slideCount } = obj
+    const { lastIndex } = this
+
+    console.log({ navCurrentIndex, slideCount, lastIndex })
+
+    // se o item anterior foi o ultimo e o index atual é o primeiro
+    if (lastIndex === slideCount - 1 && navCurrentIndex === 0) {
+      postStore.getMorePosts()
+    }
+
+    // se o item anterior foi o primeiro e o index atual é o ultimo
+    if (lastIndex === 0 && navCurrentIndex === slideCount - 1) {
+      const mobilePosts = this._getMobilePosts(this.props.posts, true)
+      console.log(mobilePosts)
+      this.setState({
+        mobilePosts
+      })
+    }
+
+    this.lastIndex = navCurrentIndex
+  }
+
+  _getMobilePosts(posts, prev = false) {
+    if (prev)
+      this.limit--
+
+    const offset = prev ? -1 : 0
+    const POSTS_PER_REQ = 4
+    const start = Math.max((POSTS_PER_REQ * (this.limit + offset)), 0)
+    const end = Math.max((POSTS_PER_REQ * (this.limit + 1 + offset)), POSTS_PER_REQ)
+    const filteredPosts = (posts || []).slice(start, end)
+
+    this.limit++
+    return filteredPosts
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="posts mobile">
+          <TinySlider
+            onTransitionStart={this._sliderListen}
+            settings={settings}
+            ref={this.ts}
+          >
+            {this.state.mobilePosts.map(data =>
+              <Post
+                mobile={this.state.mobile}
+                key={data.id}
+                data={data}
+              />
+            )}
+          </TinySlider>
+        </div>
+
+        <div className="posts" ref={this.posts}>
+          {this.props.posts.map(data =>
+            <Post
+              mobile={this.state.mobile}
+              key={data.id}
+              data={data}
+            />
+          )}
+        </div>
+      </div>
+    )
+  }
+
+}

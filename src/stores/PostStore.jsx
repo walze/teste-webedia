@@ -29,7 +29,7 @@ class PostStore extends EventEmitter {
       top5: [],
     }
     this.likedPosts = JSON.parse(window.localStorage.getItem('LIKED_POSTS')) || []
-    this.limit = 1
+    this.limit = 0
     this.morePostsLock = false
 
     this._infiniteScroll()
@@ -60,7 +60,7 @@ class PostStore extends EventEmitter {
 
   getMorePosts() {
     return api
-      .get(`posts?limit=${this.limit++}`)
+      .get(`posts?limit=${++this.limit}`)
       .then(rs => {
         console.log('Recebendo mais posts...', rs.data.posts)
         this.data.posts = [...this.data.posts, ...rs.data.posts]
