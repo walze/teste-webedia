@@ -88,14 +88,24 @@ class PostStore extends EventEmitter {
 
   like(id) {
     const alreadyLiked = this.checkIfLiked(id)
-    if (alreadyLiked) return
 
-    api
-      .get(`like/${id}`)
-      .then(({ data }) => this._replacePost(data))
-      .catch(console.error)
+    if (alreadyLiked) {
+      this.likedPosts = this.likedPosts.filter(p => p !== id)
 
-    this.likedPosts.push(id)
+      api
+        .delete(`like/${id}`)
+        .then(({ data }) => this._replacePost(data))
+        .catch(console.error)
+    } else {
+
+      api
+        .get(`like/${id}`)
+        .then(({ data }) => this._replacePost(data))
+        .catch(console.error)
+
+      this.likedPosts.push(id)
+    }
+
     window.localStorage.setItem('LIKED_POSTS', JSON.stringify(this.likedPosts))
   }
 

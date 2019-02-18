@@ -10,6 +10,7 @@ app.use(function (_, rs, next) {
   rs.setHeader('Content-Type', 'application/json')
   rs.header("Access-Control-Allow-Origin", "*")
   rs.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  rs.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, HEAD")
   next()
 })
 
