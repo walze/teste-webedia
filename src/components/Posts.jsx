@@ -6,11 +6,11 @@ import { postStore } from '../stores/PostStore'
 import { mobileStore } from '../stores/MobileStore'
 
 const settings = {
-  items: 1,
   slideBy: "page",
   mouseDrag: true,
   controls: false,
   nav: true,
+  loop: false
 }
 
 export class Posts extends React.Component {
@@ -31,7 +31,7 @@ export class Posts extends React.Component {
     mobileStore.onResize(this._onResize)
   }
 
-  _sliderListen() {
+  _sliderListen = () => {
     const obj = this.ts.current.slider.getInfo()
     const { navCurrentIndex, slideCount } = obj
 
@@ -44,43 +44,32 @@ export class Posts extends React.Component {
     }
   }
 
+  onPostClick = (post) => {
+    window.open(post.link)
+  }
+
   render() {
-    const posts = this.state.mobile
-      ? this._renderMobile()
-      : this._renderDesktop()
+    const posts = this.props
+      .posts.map(data =>
+        <Post onClick={this.onPostClick} mobile={this.state.mobile} key={data.id} data={data} />
+      )
 
-    return (
-      <div>
-        {posts}
-      </div>
-    )
+    const postsWrapper = this.state.mobile
+      ? this._renderMobile(posts)
+      : this._renderDesktop(posts)
+
+    return postsWrapper
   }
 
-  _renderDesktop() {
-    return (
-      <div className="posts">
-        {this.props.posts.map(data =>
-          <Post
-            mobile={this.state.mobile}
-            key={data.id}
-            data={data}
-          />
-        )}
-      </div>
-    )
+  _renderDesktop(posts) {
+    return <div className="posts">{posts}</div>
   }
 
-  _renderMobile() {
+  _renderMobile(posts) {
     return (
       <div className="posts mobile">
-        <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
-          {this.props.posts.map(data =>
-            <Post
-              mobile={this.state.mobile}
-              key={data.id}
-              data={data}
-            />
-          )}
+        <TinySlider onTransitionStart={this._sliderListen} settings={settings} ref={this.ts}>
+          {posts}
         </TinySlider>
       </div>
     )

@@ -26,7 +26,7 @@ export class PostImage extends React.Component {
     const style = {
       backgroundImage: `url('${this.props.post.image || 'https://via.placeholder.com/320'}')`
     }
-    console.log(style)
+
     return (
       <div
         className='img'

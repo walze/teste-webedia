@@ -14,18 +14,17 @@ const api = axios.create({
   headers
 })
 
-const makePost = ({
-  title,
-  description,
-  site_name,
+const handleError = (...args) => {
+  console.error(args)
+  alert('Não foi possivel receber esse link')
+}
+
+const makePost = ({ title, description, site_name, image, link }) => ({
+  title: title || 'Não Fornecido',
+  description: description || 'Não Fornecido',
+  site_name: site_name || 'Não Fornecido',
   image,
-  link
-}) => ({
-  title,
-  description,
-  site_name,
-  image,
-  link
+  link: link || 'Não Fornecido'
 })
 
 
@@ -83,14 +82,11 @@ class PostStore extends EventEmitter {
     console.log(post)
     api
       .post('posts', post)
-      .then(({ data }) => {
-        const newArr = [...this.data.posts]
-        newArr.unshift(data)
-
-        this.data.posts = newArr
-        this.emit(EVENTS.MORE_POSTS, this.data)
-      })
-      .catch(console.warn)
+      // a api retorna o post adicionado
+      // estou buscando todos os posts denovo só para nao ter que recalcular os top5 denovo
+      // ou fazer uma 
+      .then(() => this.getPosts())
+      .catch(handleError)
   }
 
   _deletePost = async id => {
@@ -101,7 +97,7 @@ class PostStore extends EventEmitter {
       .then(() => {
         this.getPosts()
       })
-      .catch(console.warn)
+      .catch(handleError)
   }
 
   getMetaData(url) {
@@ -134,6 +130,8 @@ class PostStore extends EventEmitter {
 
         return makePost(obj)
       })
+      .catch(handleError)
+
   }
 
   getMorePosts() {
@@ -147,7 +145,7 @@ class PostStore extends EventEmitter {
 
         return rs
       })
-      .catch(console.error)
+      .catch(handleError)
   }
 
   getPosts() {
@@ -157,7 +155,7 @@ class PostStore extends EventEmitter {
         this.data = posts.data
         this.emit(EVENTS.GET_POSTS, this.data)
       })
-      .catch(console.error)
+      .catch(handleError)
 
     return this.data.posts
   }
@@ -173,13 +171,13 @@ class PostStore extends EventEmitter {
       api
         .delete(`like/${id}`)
         .then(({ data }) => this._replacePost(data))
-        .catch(console.error)
+        .catch(handleError)
     } else {
 
       api
         .get(`like/${id}`)
         .then(({ data }) => this._replacePost(data))
-        .catch(console.error)
+        .catch(handleError)
 
       this.likedPosts.push(id)
     }
