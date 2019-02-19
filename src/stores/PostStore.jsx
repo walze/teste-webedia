@@ -77,7 +77,7 @@ class PostStore extends EventEmitter {
     })
   }
 
-  newPost = async url => {
+  _newPost = async url => {
     const post = await this.getMetaData(url)
 
     console.log(post)

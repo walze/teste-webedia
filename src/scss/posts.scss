@@ -4,6 +4,7 @@
     @media (max-width: 767px) {
       background: $dark-blue;
     }
+
     color: $white;
 
     .footer i {
@@ -105,7 +106,20 @@
     background-size: cover;
 
     .likes {
+      width: 60px;
       background: rgba($color: $white, $alpha: 0.5);
+      position: absolute;
+      right: 3%;
+      bottom: 5%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: .5rem .25rem;
+      border-radius: 10px;
+
+      &.delete {
+        left: 3%;
+      }
 
       &:hover {
         background: rgba($color: $dark-blue, $alpha: 0.5);
@@ -117,28 +131,10 @@
         }
       }
 
-      position: absolute;
-      right: 3%;
-      bottom: 5%;
-      display: flex;
-      padding: 0.5rem;
-      border-radius: 10px;
-
       .icon {
         margin-right: 5px;
       }
     }
-
-    // img {
-    //   position: absolute;
-    //   top: 50%;
-    //   left: 50%;
-    //   transform: translate(-50%, -50%);
-    //   width: 100%;
-    //   height: auto;
-    //   object-fit: cover;
-    //   // max-height: 100%;
-    // }
   }
 
   .body {

@@ -26,6 +26,12 @@ export class PostImage extends React.Component {
         style={style}
       >
 
+        <div className='likes delete' hidden={this.props.simple} onClick={this._like}>
+          <div className='icon'>
+            <i class="fas fa-trash"></i>
+          </div>
+        </div>
+
         <div className={`likes ${likeClass}`} hidden={this.props.simple} onClick={this._like}>
           <div className='icon'><i className='fi fi-heart'></i></div>
           <div className='count'>
