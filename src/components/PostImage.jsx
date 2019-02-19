@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { postStore } from '../stores/PostStore'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export class PostImage extends React.Component {
 
@@ -10,6 +11,13 @@ export class PostImage extends React.Component {
     e.stopPropagation()
 
     this.props.onLike()
+  }
+
+  _delete = e => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.props.onDelete()
   }
 
   render() {
@@ -26,14 +34,16 @@ export class PostImage extends React.Component {
         style={style}
       >
 
-        <div className='likes delete' hidden={this.props.simple} onClick={this._like}>
+        <div className='likes delete' hidden={this.props.simple} onClick={this._delete}>
           <div className='icon'>
-            <i class="fas fa-trash"></i>
+            <FontAwesomeIcon icon="trash-alt" />
           </div>
         </div>
 
-        <div className={`likes ${likeClass}`} hidden={this.props.simple} onClick={this._like}>
-          <div className='icon'><i className='fi fi-heart'></i></div>
+        <div className={`likes ${likeClass} like`} hidden={this.props.simple} onClick={this._like}>
+          <div className='icon'>
+            <FontAwesomeIcon icon="heart" />
+          </div>
           <div className='count'>
             <b>
               {this.props.post.count}

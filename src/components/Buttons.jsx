@@ -3,7 +3,7 @@ import { toggleClass } from '../helpers'
 import { themeChange } from '../actions/general'
 import generalEmitter from '../stores/general'
 import EVENTS from '../events'
-import { postStore } from '../stores/PostStore';
+import { newPost } from '../actions/postActions'
 
 export class Buttons extends React.Component {
 
@@ -37,7 +37,7 @@ export class Buttons extends React.Component {
 
   newPost = () => {
     const url = prompt('Digite a URL')
-    postStore.newPost(url)
+    newPost(url)
   }
 
   render() {

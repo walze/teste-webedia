@@ -45,22 +45,35 @@ export class Posts extends React.Component {
   }
 
   render() {
-    console.log(this.props.posts)
+    const posts = this.state.mobile
+      ? this._renderMobile()
+      : this._renderDesktop()
+
     return (
       <div>
-        <div className="posts mobile">
-          <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
-            {this.props.posts.map(data =>
-              <Post
-                mobile={this.state.mobile}
-                key={data.id}
-                data={data}
-              />
-            )}
-          </TinySlider>
-        </div>
+        {posts}
+      </div>
+    )
+  }
 
-        <div className="posts" ref={this.posts}>
+  _renderDesktop() {
+    return (
+      <div className="posts">
+        {this.props.posts.map(data =>
+          <Post
+            mobile={this.state.mobile}
+            key={data.id}
+            data={data}
+          />
+        )}
+      </div>
+    )
+  }
+
+  _renderMobile() {
+    return (
+      <div className="posts mobile">
+        <TinySlider onTransitionStart={() => this._sliderListen()} settings={settings} ref={this.ts}>
           {this.props.posts.map(data =>
             <Post
               mobile={this.state.mobile}
@@ -68,7 +81,7 @@ export class Posts extends React.Component {
               data={data}
             />
           )}
-        </div>
+        </TinySlider>
       </div>
     )
   }

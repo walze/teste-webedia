@@ -1,10 +1,10 @@
 export const timeAgo = date => {
-  const diff = new Date().getTime() - date.getTime() 
+  const diff = new Date().getTime() - date.getTime()
   let time = diff / 1000 / 60 / 60
 
-  return time < 1 
-  ? Math.round(time * 60) + ' mins ago'
-  : Math.round(time) + ' hours ago'
+  return time < 1
+    ? Math.round(time * 60) + ' mins ago'
+    : Math.round(time) + ' hours ago'
 }
 
 export const isMobile = () => window.innerWidth < 767
@@ -29,3 +29,9 @@ export const toggleClass = (el, className, addBool) => {
     return !hasClass
   })
 }
+
+export const removeByIndex = (arr, index) =>
+  [
+    ...arr.slice(0, index),
+    ...arr.slice(index + 1)
+  ]

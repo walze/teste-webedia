@@ -1,8 +1,9 @@
 
 import React from 'react'
 import { PostImage } from './PostImage'
-import { likePost } from './../actions/postActions'
+import { likePost, deletePost } from './../actions/postActions'
 import { timeAgo } from '../helpers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export class Post extends React.Component {
 
@@ -10,9 +11,8 @@ export class Post extends React.Component {
     window.open(this.props.data.link)
   }
 
-  _like = () => {
-    likePost(this.props.data)
-  }
+  _like = () => likePost(this.props.data)
+  _delete = () => deletePost(this.props.data)
 
   render() {
     const simple = !!this.props.simple
@@ -27,6 +27,7 @@ export class Post extends React.Component {
       >
         <PostImage
           onLike={this._like}
+          onDelete={this._delete}
           post={this.props.data}
           simple={simple}
         />
@@ -43,12 +44,12 @@ export class Post extends React.Component {
           <div className="footer">
 
             <div hidden={mobile || simple}>
-              <i className="fi fi-earth icon-margin"></i>
+              <FontAwesomeIcon icon='globe' />
               <span>{this.props.data.site_name}</span>
             </div>
 
             <div hidden={simple && !mobile}>
-              <i className="fi fi-clock icon-margin"></i>
+              <FontAwesomeIcon icon='clock' />
               <span>{timeAgo(new Date(this.props.data.date))}</span>
             </div>
 

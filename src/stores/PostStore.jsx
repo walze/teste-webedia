@@ -93,6 +93,17 @@ class PostStore extends EventEmitter {
       .catch(console.warn)
   }
 
+  _deletePost = async id => {
+
+
+    api
+      .delete(`posts/${id}`)
+      .then(() => {
+        this.getPosts()
+      })
+      .catch(console.warn)
+  }
+
   getMetaData(url) {
     return axios
       .get(`https://cors-anywhere.herokuapp.com/${url}`, { headers })
@@ -103,6 +114,7 @@ class PostStore extends EventEmitter {
         const obj = {
           link: url
         }
+
         Array
           .from(el.querySelectorAll('meta'))
           .map(meta => {
@@ -195,6 +207,12 @@ class PostStore extends EventEmitter {
     switch (type) {
       case EVENTS.LIKE:
         this.like(payload.id)
+        break
+      case EVENTS.NEW_POST:
+        this._newPost(payload)
+        break
+      case EVENTS.DELETE_POST:
+        this._deletePost(payload.id)
         break
 
       default:
