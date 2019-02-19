@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export class Post extends React.Component {
 
-  click = () => this.props.onClick(this.props.data)
+  click = () => {
+    window.open(this.props.data.link)
+  }
 
   _like = () => likePost(this.props.data)
   _delete = () => deletePost(this.props.data)

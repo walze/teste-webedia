@@ -44,14 +44,10 @@ export class Posts extends React.Component {
     }
   }
 
-  onPostClick = (post) => {
-    window.open(post.link)
-  }
-
   render() {
     const posts = this.props
       .posts.map(data =>
-        <Post onClick={this.onPostClick} mobile={this.state.mobile} key={data.id} data={data} />
+        <Post mobile={this.state.mobile} key={data.id} data={data} />
       )
 
     const postsWrapper = this.state.mobile
