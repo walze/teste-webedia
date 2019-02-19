@@ -7,6 +7,8 @@ function getCurrentDateTimeMySql() {
   return mySqlDT;
 }
 
+const handleError = (...arg) => console.error(arg)
+
 // fiz likes em uma tabela separada apenas mostrar meus conhecimentos de relações
 // nesse caso em especifico, a contagem de likes poderia ficar na tabela de posts
 module.exports = class Post {
@@ -28,9 +30,11 @@ module.exports = class Post {
       LIMIT ${lmt}, ${this.postPerReq}
     `
 
-    const [posts] = await db.conn.execute(q)
+    const posts = await db.conn.execute(q)
+      .catch(handleError)
 
-    return posts.map(post => new Post(post))
+    if (posts && posts[0])
+      return posts[0].map(post => new Post(post))
   }
 
   static async top5() {
@@ -44,6 +48,7 @@ module.exports = class Post {
   `
 
     const [posts] = await db.conn.execute(q)
+      .catch(handleError)
 
     return posts.map(post => new Post(post))
   }
@@ -57,15 +62,22 @@ module.exports = class Post {
       WHERE id = ${id}
     `
 
-    const [rows] = await db.conn.execute(q)
-    const postData = rows[0]
+    const rows = await db.conn.execute(q)
+      .catch(handleError)
 
-    return postData ? new Post(postData) : null
+    if (rows) {
+      const postData = rows[0]
+      return postData ? new Post(postData) : null
+    }
   }
 
   static async delete(id) {
     const [rows2] = await db.conn.execute(`DELETE FROM \`likes\` WHERE post_id = ${id}`)
+      .catch(handleError)
+
     const [rows] = await db.conn.execute(`DELETE FROM \`posts\` WHERE id = ${id}`)
+      .catch(handleError)
+
 
     return {
       posts: rows,
@@ -120,6 +132,8 @@ module.exports = class Post {
     `
 
     const [res] = await db.query(q, [this.title, this.description, this.date, this.site_name, this.image, this.link])
+      .catch(handleError)
+
     this.id = res.insertId
 
     // cria novo like

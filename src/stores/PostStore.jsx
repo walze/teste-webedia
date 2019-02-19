@@ -3,6 +3,7 @@ import axios from 'axios'
 import { EventEmitter } from 'events'
 import { mobileStore } from './MobileStore'
 import EVENTS from '../events'
+import { debounce } from './../helpers';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -36,6 +37,7 @@ class PostStore extends EventEmitter {
     const height = document.body.scrollHeight
 
     if (scroll >= height && !this.morePostsLock) {
+      console.log('More posts...')
       this.morePostsLock = true
       this.getMorePosts()
     }
@@ -57,19 +59,22 @@ class PostStore extends EventEmitter {
   }
 
   _infiniteScroll() {
-    const offset = 400
+    const offset = 600
     const scroll = this._onScroll(offset)
 
     let scrollIsOn = true
-    window.addEventListener('scroll', scroll)
 
-    mobileStore.onResize(mobile => {
+    const onScrollDebounce = debounce(scroll, 100)
+
+    window.addEventListener('scroll', onScrollDebounce)
+
+    mobileStore.onResize(mobile => {  
 
       if (mobile && !scrollIsOn) {
-        window.addEventListener('scroll', scroll)
+        window.addEventListener('scroll', onScrollDebounce)
 
       } else if (!mobile && scrollIsOn) {
-        window.removeEventListener('scroll', scroll)
+        window.removeEventListener('scroll', onScrollDebounce)
 
       }
 

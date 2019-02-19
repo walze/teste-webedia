@@ -13,6 +13,10 @@ app.use(function (_, rs, next) {
   rs.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, HEAD")
   next()
 })
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send(err)
+});
 
 
 try {
@@ -21,9 +25,6 @@ try {
   // like/dislike
   app.all('/like/:id', async (rq, rs) => {
     const post = await Post.find(rq.params.id)
-      .catch((...args) => {
-        rs.status(403).end(args)
-      })
 
     if (!post) return rs.status(404).send('404 Not Found').end()
 
@@ -40,14 +41,7 @@ try {
   app.get('/posts', async (rq, rs) => {
     const { limit } = rq.query
     const posts = await Post.all(limit)
-      .catch((...args) => {
-        rs.status(403).end(args)
-      })
-
     const top5 = await Post.top5()
-      .catch((...args) => {
-        rs.status(403).end(args)
-      })
 
     rs.send({ posts, top5 })
   })
@@ -55,9 +49,6 @@ try {
   // 1 post
   app.get('/posts/:id', async (rq, rs) => {
     const post = await Post.find(rq.params.id)
-      .catch((...args) => {
-        rs.status(403).end(args)
-      })
 
     rs.send(post)
   })
@@ -65,9 +56,6 @@ try {
   // delete post
   app.delete('/posts/:id', async (rq, rs) => {
     const post = await Post.delete(rq.params.id)
-      .catch((...args) => {
-        rs.status(403).end(args)
-      })
 
     rs.send(post)
   })
@@ -75,9 +63,7 @@ try {
   // add post
   app.post('/posts', async (rq, rs) => {
     const post = new Post(rq.body)
-    const result = await post
-      .save()
-      .catch((...args) => { rs.status(403).end(args) })
+    const result = await post.save()
     const newPost = await Post.find(result.insertId)
 
     rs.send(newPost)
