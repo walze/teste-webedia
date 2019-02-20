@@ -2,7 +2,7 @@
 
 ## Instruções
 
-Importar o arquivo news_db.sql no banco
+Importar o arquivo `news_db.sql` no banco
 Executar o comando `npm i && npm start`
 
 ## Informações
