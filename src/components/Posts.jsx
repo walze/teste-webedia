@@ -87,7 +87,7 @@ export class Posts extends React.Component {
     const scroll = window.scrollY + window.outerHeight + offset
     const height = document.body.scrollHeight
 
-    if (scroll >= height && !this.morePostsLock) {
+    if (scroll >= height && !this.morePostsLock && !this.state.mobile) {
       console.log('More posts...')
       this.morePostsLock = true
 

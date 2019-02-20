@@ -1,4 +1,4 @@
-import dispatcher from "../dispatcher"
+import dispatcher from "../Dispatcher"
 import EVENTS from "../events"
 import { EventEmitter } from "events"
 

@@ -72,7 +72,7 @@ module.exports = class Post {
 
     if (rows) {
       const postData = rows[0]
-      return postData.length ? new Post(postData) : false
+      return postData.length ? new Post(postData[0]) : false
     } else return false
   }
 

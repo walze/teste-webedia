@@ -1,4 +1,4 @@
-import dispatcher from '../dispatcher'
+import dispatcher from '../Dispatcher'
 import axios from 'axios'
 import { EventEmitter } from 'events'
 import EVENTS from '../events'
@@ -56,9 +56,11 @@ class PostStore extends EventEmitter {
       .then(a => {
         console.log(a)
         this.getPosts()
-        this.emit(EVENTS.LOADING(EVENTS.NEW_POST), false)
       })
       .catch(handleError)
+      .finally(() => {
+        this.emit(EVENTS.LOADING(EVENTS.NEW_POST), false)
+      })
   }
 
   _deletePost = async id => {
@@ -68,9 +70,11 @@ class PostStore extends EventEmitter {
       .delete(`posts/${id}`)
       .then(() => {
         this.getPosts()
-        this.emit(EVENTS.LOADING(EVENTS.DELETE_POST), false)
       })
       .catch(handleError)
+      .finally(() => {
+        this.emit(EVENTS.LOADING(EVENTS.DELETE_POST), false)
+      })
   }
 
   getMetaData(url) {
@@ -104,7 +108,6 @@ class PostStore extends EventEmitter {
         return makePost(obj)
       })
       .catch(handleError)
-
   }
 
   getMorePosts() {
@@ -115,12 +118,14 @@ class PostStore extends EventEmitter {
       .then(rs => {
         console.log('Recebendo mais posts...', rs.data.posts)
         this.data.posts = [...this.data.posts, ...rs.data.posts]
-        this.emit(EVENTS.LOADING(EVENTS.MORE_POSTS), false)
         this.emit(EVENTS.MORE_POSTS, this.data)
 
         return rs
       })
       .catch(handleError)
+      .finally(() => {
+        this.emit(EVENTS.LOADING(EVENTS.MORE_POSTS), false)
+      })
   }
 
   getPosts() {
@@ -131,9 +136,11 @@ class PostStore extends EventEmitter {
       .then(posts => {
         this.data = posts.data
         this.emit(EVENTS.GET_POSTS, this.data)
-        this.emit(EVENTS.LOADING(EVENTS.GET_POSTS), false)
       })
       .catch(handleError)
+      .finally(() => {
+        this.emit(EVENTS.LOADING(EVENTS.GET_POSTS), false)
+      })
 
     return this.data.posts
   }
@@ -150,12 +157,14 @@ class PostStore extends EventEmitter {
         .delete(`like/${id}`)
         .then(({ data }) => this._replacePost(data))
         .catch(handleError)
+        
     } else {
 
       api
         .get(`like/${id}`)
         .then(({ data }) => this._replacePost(data))
         .catch(handleError)
+        
 
       this.likedPosts.push(id)
     }
