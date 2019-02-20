@@ -17,15 +17,15 @@ const api = axios.create({
 
 const handleError = (...args) => {
   console.error(args)
-  alert('Não foi possivel receber esse link')
+  alert('Houve algum erro')
 }
 
 const makePost = ({ title, description, site_name, image, link }) => ({
-  title: title || 'Não Fornecido',
-  description: description || 'Não Fornecido',
+  title: title,
+  description: description,
   site_name: site_name || 'Não Fornecido',
   image,
-  link: link || 'Não Fornecido'
+  link,
 })
 
 
@@ -68,7 +68,7 @@ class PostStore extends EventEmitter {
 
     window.addEventListener('scroll', onScrollDebounce)
 
-    mobileStore.onResize(mobile => {  
+    mobileStore.onResize(mobile => {
 
       if (mobile && !scrollIsOn) {
         window.addEventListener('scroll', onScrollDebounce)
@@ -90,7 +90,10 @@ class PostStore extends EventEmitter {
       // a api retorna o post adicionado
       // estou buscando todos os posts denovo só para nao ter que recalcular os top5 denovo
       // ou fazer uma 
-      .then(() => this.getPosts())
+      .then(a => {
+        console.log(a)
+        this.getPosts()
+      })
       .catch(handleError)
   }
 

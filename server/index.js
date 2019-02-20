@@ -19,60 +19,57 @@ app.use(function (err, req, res, next) {
 });
 
 
-try {
+// like/dislike
+app.all('/like/:id', async (rq, rs) => {
+  const post = await Post.find(rq.params.id)
+
+  if (!post) return rs.status(404).send('404 Not Found').end()
+
+  if (rq.method === 'GET')
+    post.like()
+  else if (rq.method === 'DELETE')
+    post.dislike()
+
+  rs.send(post)
+})
 
 
-  // like/dislike
-  app.all('/like/:id', async (rq, rs) => {
-    const post = await Post.find(rq.params.id)
+// all posts
+app.get('/posts', async (rq, rs) => {
+  const { limit } = rq.query
+  const posts = await Post.all(limit)
+  const top5 = await Post.top5()
 
-    if (!post) return rs.status(404).send('404 Not Found').end()
+  rs.send({ posts, top5 })
+})
 
-    if (rq.method === 'GET')
-      post.like()
-    else if (rq.method === 'DELETE')
-      post.dislike()
+// 1 post
+app.get('/posts/:id', async (rq, rs) => {
+  const post = await Post.find(rq.params.id)
+  if (!post) return rs.status(404).send('404 Not Found').end()
 
-    rs.send(post)
-  })
+  rs.send(post)
+})
 
+// delete post
+app.delete('/posts/:id', async (rq, rs) => {
+  const post = await Post.delete(rq.params.id)
 
-  // all posts
-  app.get('/posts', async (rq, rs) => {
-    const { limit } = rq.query
-    const posts = await Post.all(limit)
-    const top5 = await Post.top5()
+  rs.send(post)
+})
 
-    rs.send({ posts, top5 })
-  })
+// add post
+app.post('/posts', async (rq, rs) => {
+  const post = new Post(rq.body)
+  const result = await post.save()
+  const { insertId } = result
+  if (!insertId) return rs.status(500).send(result).end()
 
-  // 1 post
-  app.get('/posts/:id', async (rq, rs) => {
-    const post = await Post.find(rq.params.id)
+  const newPost = await Post.find(result.insertId)
 
-    rs.send(post)
-  })
+  rs.send({ newPost, result, post })
+})
 
-  // delete post
-  app.delete('/posts/:id', async (rq, rs) => {
-    const post = await Post.delete(rq.params.id)
-
-    rs.send(post)
-  })
-
-  // add post
-  app.post('/posts', async (rq, rs) => {
-    const post = new Post(rq.body)
-    const result = await post.save()
-    const newPost = await Post.find(result.insertId)
-
-    rs.send(newPost)
-  })
-
-  app.listen(3001, function () {
-    console.log('\nListening on port 3001...')
-  })
-
-} catch (err) {
-  console.log(err)
-}
+app.listen(3001, function () {
+  console.log('\nListening on port 3001...')
+})

@@ -7,7 +7,7 @@
 * {
   position: relative;
   box-sizing: border-box;
-  font-family: "Arial";
+  font-family: "Lato";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -15,6 +15,11 @@
   transition: 0.1s linear background-color, 0.1s position, 0.1s left, 0.1s right, 0.1s margin, 0.1s margin-right,
     0.1s margin-left;
 }
+
+b,h1,h2,h3,h4,h5,h6, a, strong {
+  font-family: 'Montserrat'
+}
+
 
 [hidden] {
   display: none !important;

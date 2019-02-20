@@ -7,7 +7,11 @@ function getCurrentDateTimeMySql() {
   return mySqlDT;
 }
 
-const handleError = (...arg) => console.error(arg)
+const handleError = (...arg) => {
+  console.error(arg)
+
+  return arg
+}
 
 // fiz likes em uma tabela separada apenas mostrar meus conhecimentos de relações
 // nesse caso em especifico, a contagem de likes poderia ficar na tabela de posts
@@ -35,6 +39,7 @@ module.exports = class Post {
 
     if (posts && posts[0])
       return posts[0].map(post => new Post(post))
+    else return posts
   }
 
   static async top5() {
@@ -67,8 +72,8 @@ module.exports = class Post {
 
     if (rows) {
       const postData = rows[0]
-      return postData ? new Post(postData) : null
-    }
+      return postData.length ? new Post(postData) : false
+    } else return false
   }
 
   static async delete(id) {
@@ -85,7 +90,8 @@ module.exports = class Post {
     }
   }
 
-  constructor(obj) {
+  constructor(obj, rs) {
+    this.rs = rs
     this.id = Number(obj.id) || null
     this.title = obj.title
     this.link = obj.link
