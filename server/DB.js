@@ -4,7 +4,7 @@ class DB {
 
   constructor() {
     this.mysql = mysql
-    this._createConn = () => mysql.createConnection({
+    this._conn = mysql.createConnection({
       host: 'localhost',
       user: 'root',
       database: 'news_db'
@@ -16,11 +16,11 @@ class DB {
   }
 
   get connCB() {
-    return this._createConn()
+    return this._conn
   }
 
   get conn() {
-    const conn = this._createConn()
+    const conn = this._conn
     const promise = conn.promise()
 
     return promise

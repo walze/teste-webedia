@@ -5,11 +5,13 @@ import { Sidebar } from './components/Sidebar'
 import { postStore } from './stores/PostStore'
 import EVENTS from './events'
 import { themeChange } from './actions/general'
+import { Loading } from './components/Loading'
 
 
 class App extends Component {
 
   state = {
+    loading: true,
     posts: postStore.getPosts(),
     top5: []
   }
@@ -17,6 +19,7 @@ class App extends Component {
   componentWillMount() {
     postStore.on(EVENTS.GET_POSTS, this._updatePosts)
     postStore.on(EVENTS.MORE_POSTS, this._updatePosts)
+    postStore.on(EVENTS.LOADING(EVENTS.NEW_POST), loading => this.setState({ loading }))
   }
 
   componentWillUnmount() {
@@ -35,6 +38,7 @@ class App extends Component {
         <div className="main-wrapper">
           <div className='main'>
             <Header />
+            <Loading hidden={!this.state.loading} />
             <Posts posts={this.state.posts} />
           </div>
 
@@ -45,7 +49,14 @@ class App extends Component {
     )
   }
 
-  _updatePosts = ({ posts, top5 }) => this.setState({ posts, top5 })
+  _updatePosts = ({ posts, top5 }) => {
+
+    this.setState({
+      posts,
+      top5,
+      loading: false
+    })
+  }
 
 }
 

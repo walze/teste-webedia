@@ -5,7 +5,8 @@ const EVENTS = {
   NEW_POST: 'NEW_POST',
   DELETE_POST: 'DELETE_POST',
   LIKE: 'LIKE',
-  THEME_CHANGE: 'THEME_CHANGE'
+  THEME_CHANGE: 'THEME_CHANGE',
+  LOADING: event => `LOADING_${event}`
 }
 
 export default EVENTS

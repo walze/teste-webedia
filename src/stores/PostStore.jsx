@@ -1,9 +1,7 @@
 import dispatcher from '../dispatcher'
 import axios from 'axios'
 import { EventEmitter } from 'events'
-import { mobileStore } from './MobileStore'
 import EVENTS from '../events'
-import { debounce } from './../helpers';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -32,17 +30,6 @@ const makePost = ({ title, description, site_name, image, link }) => ({
 
 class PostStore extends EventEmitter {
 
-  _onScroll = (offset) => () => {
-    const scroll = window.scrollY + window.outerHeight + offset
-    const height = document.body.scrollHeight
-
-    if (scroll >= height && !this.morePostsLock) {
-      console.log('More posts...')
-      this.morePostsLock = true
-      this.getMorePosts()
-    }
-  }
-
   constructor() {
     super()
     this.data = {
@@ -51,40 +38,16 @@ class PostStore extends EventEmitter {
     }
     this.likedPosts = JSON.parse(window.localStorage.getItem('LIKED_POSTS')) || []
     this.limit = 0
-    this.morePostsLock = false
-
-    this._infiniteScroll()
 
     console.log(this)
   }
 
-  _infiniteScroll() {
-    const offset = 600
-    const scroll = this._onScroll(offset)
-
-    let scrollIsOn = true
-
-    const onScrollDebounce = debounce(scroll, 100)
-
-    window.addEventListener('scroll', onScrollDebounce)
-
-    mobileStore.onResize(mobile => {
-
-      if (mobile && !scrollIsOn) {
-        window.addEventListener('scroll', onScrollDebounce)
-
-      } else if (!mobile && scrollIsOn) {
-        window.removeEventListener('scroll', onScrollDebounce)
-
-      }
-
-    })
-  }
-
   _newPost = async url => {
-    const post = await this.getMetaData(url)
+    this.emit(EVENTS.LOADING(EVENTS.NEW_POST), true)
 
+    const post = await this.getMetaData(url)
     console.log(post)
+
     api
       .post('posts', post)
       // a api retorna o post adicionado
@@ -93,17 +56,19 @@ class PostStore extends EventEmitter {
       .then(a => {
         console.log(a)
         this.getPosts()
+        this.emit(EVENTS.LOADING(EVENTS.NEW_POST), false)
       })
       .catch(handleError)
   }
 
   _deletePost = async id => {
-
+    this.emit(EVENTS.LOADING(EVENTS.DELETE_POST), true)
 
     api
       .delete(`posts/${id}`)
       .then(() => {
         this.getPosts()
+        this.emit(EVENTS.LOADING(EVENTS.DELETE_POST), false)
       })
       .catch(handleError)
   }
@@ -143,13 +108,15 @@ class PostStore extends EventEmitter {
   }
 
   getMorePosts() {
+    this.emit(EVENTS.LOADING(EVENTS.MORE_POSTS), true)
+
     return api
       .get(`posts?limit=${++this.limit}`)
       .then(rs => {
         console.log('Recebendo mais posts...', rs.data.posts)
         this.data.posts = [...this.data.posts, ...rs.data.posts]
+        this.emit(EVENTS.LOADING(EVENTS.MORE_POSTS), false)
         this.emit(EVENTS.MORE_POSTS, this.data)
-        this.morePostsLock = false
 
         return rs
       })
@@ -157,11 +124,14 @@ class PostStore extends EventEmitter {
   }
 
   getPosts() {
+    this.emit(EVENTS.LOADING(EVENTS.GET_POSTS), true)
+
     api
       .get(`posts`)
       .then(posts => {
         this.data = posts.data
         this.emit(EVENTS.GET_POSTS, this.data)
+        this.emit(EVENTS.LOADING(EVENTS.GET_POSTS), false)
       })
       .catch(handleError)
 
